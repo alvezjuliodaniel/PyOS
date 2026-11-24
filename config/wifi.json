@@ -1,0 +1,17 @@
+{
+  "sta": {
+    "ssid": "",
+    "password": "",
+    "timeout_s": 15,
+    "reconnect_interval_s": 30,
+    "txpower": 8.5
+  },
+  "ap": {
+    "ssid": "MicroOS-Setup",
+    "password": "",
+    "ip": "192.168.4.1",
+    "channel": 6,
+    "txpower": 8.5,
+    "hidden": false
+  }
+}

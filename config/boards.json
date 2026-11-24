@@ -1,0 +1,85 @@
+{
+  "esp32c3": {
+    "name": "ESP32-C3",
+    "arch": "rv32imc",
+    "cores": 1,
+    "max_cpu_mhz": 160,
+    "psram_capable": false,
+    "pwm_max_channels": 6,
+    "pins": {
+      "safe_io": [0, 1, 3, 4, 5, 6, 7, 10],
+      "safe_in_only": [],
+      "safe_adc": [0, 1, 3, 4],
+      "reserved": {
+        "strapping": [2, 8, 9],
+        "flash": [11, 12, 13, 14, 15, 16, 17],
+        "usb": [18, 19],
+        "uart0": [20, 21]
+      }
+    },
+    "limits": {
+      "profile": "strict",
+      "ram_warn_bytes": 32768,
+      "ram_crit_bytes": 16384,
+      "max_sockets": 3,
+      "http_chunk_bytes": 512,
+      "gc_interval_ms": 5000
+    }
+  },
+  "esp32": {
+    "name": "ESP32-S (Classic)",
+    "arch": "xtensawin",
+    "cores": 2,
+    "max_cpu_mhz": 240,
+    "psram_capable": true,
+    "pwm_max_channels": 8,
+    "pins": {
+      "safe_io": [2, 4, 5, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33],
+      "safe_in_only": [34, 35, 36, 39],
+      "safe_adc": [32, 33, 34, 35, 36, 39],
+      "psram_pins": [16, 17],
+      "reserved": {
+        "strapping": [0, 12],
+        "uart0": [1, 3],
+        "flash": [6, 7, 8, 9, 10, 11],
+        "unavailable": [20, 24, 28, 29, 30, 31, 37, 38]
+      }
+    },
+    "limits": {
+      "profile": "standard",
+      "ram_warn_bytes": 49152,
+      "ram_crit_bytes": 24576,
+      "max_sockets": 5,
+      "http_chunk_bytes": 1024,
+      "gc_interval_ms": 10000
+    }
+  },
+  "esp32s3": {
+    "name": "ESP32-S3",
+    "arch": "xtensawin",
+    "cores": 2,
+    "max_cpu_mhz": 240,
+    "psram_capable": true,
+    "pwm_max_channels": 8,
+    "pins": {
+      "safe_io": [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 21, 38, 39, 40, 41, 42, 47, 48],
+      "safe_in_only": [],
+      "safe_adc": [1, 2, 4, 5, 6, 7, 8, 9, 10],
+      "reserved": {
+        "strapping": [0, 3, 45, 46],
+        "usb": [19, 20],
+        "unavailable": [22, 23, 24, 25],
+        "flash_psram": [26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37],
+        "uart0": [43, 44]
+      }
+    },
+    "limits": {
+      "profile": "extended",
+      "ram_warn_bytes": 65536,
+      "ram_crit_bytes": 32768,
+      "max_sockets": 6,
+      "http_chunk_bytes": 1024,
+      "gc_interval_ms": 15000
+    }
+  }
+}

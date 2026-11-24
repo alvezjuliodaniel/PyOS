@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "width": 128,
+  "height": 64,
+  "addr": 60,
+  "freq": 400000,
+  "refresh_ms": 2000,
+  "pins": {
+    "esp32c3": { "sda": 6, "scl": 7 },
+    "esp32": { "sda": 21, "scl": 22 },
+    "esp32s3": { "sda": 8, "scl": 9 }
+  }
+}

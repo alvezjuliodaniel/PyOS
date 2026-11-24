@@ -1,0 +1,8 @@
+{
+  "name": "MicroOS",
+  "version": "0.2.0",
+  "hostname": "microos",
+  "log_max_entries": 32,
+  "telemetry_interval_ms": 2000,
+  "allow_remote_python": true
+}

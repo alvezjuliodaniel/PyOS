@@ -1,0 +1,13 @@
+{
+  "host": "",
+  "port": 8883,
+  "client_id": "",
+  "username": "",
+  "keepalive": 60,
+  "autostart": false,
+  "reconnect": true,
+  "aos_enabled": true,
+  "aos_base_topic": "aos/devices",
+  "aos_telemetry_s": 30,
+  "subscriptions": []
+}

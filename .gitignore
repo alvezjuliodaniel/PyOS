@@ -1,0 +1,10 @@
+# Python / Build
+__pycache__/
+*.py[cod]
+build/
+
+# Secretos locales (nunca subir credenciales al repositorio)
+config/secrets/
+*.secret
+*.key
+.env

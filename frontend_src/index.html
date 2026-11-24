@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MicroOS Desktop</title>
+  <link rel="stylesheet" href="/css/desktop.css?v=11">
+</head>
+<body>
+  <!-- Pantalla de Login / Configuracion Inicial (SEC-01) -->
+  <div id="auth-overlay" class="auth-overlay hidden">
+    <form id="auth-form" class="auth-card">
+      <div style="font-size:28px;">⚡</div>
+      <h2 id="auth-title" style="margin:4px 0 2px;font-size:18px;">MicroOS</h2>
+      <div id="auth-sub" class="muted" style="font-size:12px;margin-bottom:10px;">Inicia sesion para continuar</div>
+      <input id="auth-user" class="input" value="admin" placeholder="Usuario" autocomplete="username" />
+      <input id="auth-pass" class="input" type="password" placeholder="Contrasena" autocomplete="current-password" required />
+      <input id="auth-pass2" class="input hidden" type="password" placeholder="Confirmar contrasena" autocomplete="new-password" />
+      <div id="auth-err" style="color:var(--err);font-size:12px;min-height:16px;"></div>
+      <button id="auth-btn" type="submit" class="btn primary" style="padding:8px;font-weight:700;">Entrar</button>
+    </form>
+  </div>
+
+  <div id="desktop" aria-label="MicroOS Desktop">
+    <div id="desktop-icons"></div>
+    <div id="windows-layer"></div>
+  </div>
+
+  <!-- Menu Inicio clasico estilo Windows 7 (dinamico) -->
+  <div id="start-menu" class="w7-start hidden" role="menu" aria-label="Menu Inicio">
+    <div class="w7-start-grid">
+      <div class="w7-start-left">
+        <div id="start-apps" class="w7-start-apps"></div>
+        <div class="w7-start-search-wrap">
+          <input id="start-search" class="input" placeholder="🔍 Buscar programas..." autocomplete="off" />
+        </div>
+      </div>
+      <div class="w7-start-right">
+        <div class="w7-start-user">
+          <div class="w7-start-avatar">⚡</div>
+          <div>
+            <div style="font-weight:700;">MicroOS</div>
+            <div id="start-board-lbl" class="muted" style="font-size:11px;">ESP32</div>
+          </div>
+        </div>
+        <div class="w7-start-places">
+          <button class="w7-place-btn" data-open="files">🖥️ Equipo / Archivos</button>
+          <button class="w7-place-btn" data-open="controlpanel">⚙️ Panel de Control</button>
+          <button class="w7-place-btn" data-open="monitor">📊 Monitor del Sistema</button>
+          <button class="w7-place-btn" data-open="wifi">📶 Ajustes Wi-Fi</button>
+          <button class="w7-place-btn" data-open="mqtt">📡 MQTT Center</button>
+          <button class="w7-place-btn" data-open="appstore">📦 Gestor de Apps</button>
+          <button class="w7-place-btn" data-open="terminal">💻 Terminal Linux</button>
+          <hr class="w7-start-sep" />
+          <button class="w7-place-btn" data-open="about">ℹ️ Acerca de MicroOS</button>
+        </div>
+        <div class="w7-start-power">
+          <button id="start-gc" class="btn" title="Liberar RAM (GC)">🧹 GC</button>
+          <button id="start-logout" class="btn" title="Cerrar sesion">🔒 Salir</button>
+          <button id="start-reboot" class="btn danger" title="Reiniciar placa ESP32">⏻</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" aria-live="polite"></div>
+
+  <footer id="taskbar">
+    <div class="tb-left">
+      <button id="btn-start" class="tb-brand" title="Menu Inicio">
+        <span class="brand-dot"></span>
+        <span>Inicio</span>
+      </button>
+      <div id="dock-apps" class="tb-dock"></div>
+    </div>
+
+    <div id="taskbar-windows" class="tb-windows"></div>
+
+    <div class="tb-tray">
+      <span id="tray-board" class="tray-pill" title="Placa detectada">---</span>
+      <span id="tray-ram" class="tray-pill" title="RAM libre">RAM --</span>
+      <span id="tray-ws" class="tray-pill ws-off" title="Estado WebSocket">
+        <i class="status-led"></i>
+        <span id="tray-ws-text">Desconectado</span>
+      </span>
+      <span id="tray-clock" class="tray-clock">00:00</span>
+    </div>
+  </footer>
+
+  <script src="/js/rpc.js?v=11"></script>
+  <script src="/js/wm.js?v=11"></script>
+  <script src="/js/apps/monitor.js?v=11"></script>
+  <script src="/js/apps/files.js?v=11"></script>
+  <script src="/js/apps/terminal.js?v=11"></script>
+  <script src="/js/apps/gpio.js?v=11"></script>
+  <script src="/js/apps/editor.js?v=11"></script>
+  <script src="/js/apps/calc.js?v=11"></script>
+  <script src="/js/apps/wifi.js?v=12"></script>
+  <script src="/js/apps/mqtt.js?v=15"></script>
+  <script src="/js/apps/controlpanel.js?v=12"></script>
+  <script src="/js/apps/appstore.js?v=13"></script>
+  <script src="/js/app.js?v=13"></script>
+  <script src="/js/sdk.js?v=13"></script>
+</body>
+</html>
