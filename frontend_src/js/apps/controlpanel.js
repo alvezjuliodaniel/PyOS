@@ -1,20 +1,20 @@
 /**
- * MicroOS App: Panel de Control (estilo Windows 7 por categorias)
+ * PyOS App: Panel de Control (estilo Windows 7 por categorias)
  * Sistema, Red/Hostname, Hardware/OLED, Programas y Apariencia/Ventanas.
  */
 (function (global) {
   "use strict";
 
-  global.MicroOSApps = global.MicroOSApps || [];
+  global.PyOSApps = global.PyOSApps || [];
 
-  global.MicroOSApps.push({
+  global.PyOSApps.push({
     id: "controlpanel",
     title: "Panel de Control",
     icon: "⚙️",
     width: 680,
     height: 480,
     mount(container) {
-      const { client, wm, toast, applyAppearance } = global.MicroOS;
+      const { client, wm, toast, applyAppearance } = global.PyOS;
 
       container.innerHTML = `
         <div style="display:flex;flex-direction:column;gap:10px;height:100%;overflow:auto;">
@@ -37,7 +37,7 @@
               <div style="font-weight:700;color:var(--accent);">🌐 Redes e Internet</div>
               <div style="display:flex;gap:6px;align-items:center;">
                 <label class="muted" style="font-size:12px;">Hostname:</label>
-                <input id="cp-host" class="input mono" style="flex:1;" value="microos" />
+                <input id="cp-host" class="input mono" style="flex:1;" value="pyos" />
                 <button class="btn ok" id="cp-host-save">Guardar</button>
               </div>
               <div style="display:flex;gap:6px;">
@@ -113,7 +113,7 @@
           const info = await client.call("sys", "info");
           chipId = info.chip_id || "esp32c3";
           elSys.innerHTML = `${info.name} (${info.arch}) · ${info.cores} nucleo(s)<br>MicroPython ${info.mpy_version} · PSRAM: ${info.psram ? "SI" : "NO"}`;
-          elHost.value = info.hostname || "microos";
+          elHost.value = info.hostname || "pyos";
         } catch {}
 
         try {
@@ -181,7 +181,7 @@
       container.querySelectorAll("[data-wp]").forEach((b) => {
         b.onclick = () => {
           const k = b.dataset.wp;
-          try { localStorage.setItem("microos_wp", k); } catch {}
+          try { localStorage.setItem("pyos_wp", k); } catch {}
           applyAppearance(k, null);
           toast("Fondo actualizado", "ok", 1800);
         };
@@ -190,7 +190,7 @@
       container.querySelectorAll("[data-acc]").forEach((b) => {
         b.onclick = () => {
           const k = b.dataset.acc;
-          try { localStorage.setItem("microos_acc", k); } catch {}
+          try { localStorage.setItem("pyos_acc", k); } catch {}
           applyAppearance(null, k);
           toast("Color de acento actualizado", "ok", 1800);
         };

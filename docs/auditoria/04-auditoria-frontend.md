@@ -1,4 +1,4 @@
-# 04 — Auditoría del Escritorio Web / Frontend (MicroOS v0.1.0)
+# 04 — Auditoría del Escritorio Web / Frontend (PyOS v0.1.0)
 
 > **Alcance**: Inspección completa de `frontend_src/index.html`, `css/desktop.css`, `js/rpc.js`, `js/wm.js`, `js/app.js` y las 9 aplicaciones nativas (`monitor.js`, `files.js`, `terminal.js`, `gpio.js`, `editor.js`, `calc.js`, `wifi.js`, `controlpanel.js`, `appstore.js`).  
 > **Tamaño actual**: `163.5 KB` sin comprimir → **`40.2 KB` gzip** (14 archivos, cero frameworks externos).
@@ -17,10 +17,10 @@
   - `frontend_src/js/app.js:274` y `frontend_src/js/wm.js:102` (`app.title`, `app.icon`)
 - **Descripción técnica**: Múltiples vistas construyen HTML interpolando datos no confiables (como un SSID Wi-Fi cercano llamado `<img src=x onerror=alert(1)>` o un nombre de archivo malicioso en LittleFS) directamente en plantillas `innerHTML` sin escapar caracteres HTML (`&`, `<`, `>`, `"`, `'`).
 - **Evidencia concreta**:
-  - `frontend_src/js/apps/wifi.js:87`: ``row.innerHTML = `<span>${n.auth ? "🔒" : "🔓"} <strong>${n.ssid}</strong></span>...` `` — **un punto de acceso Wi-Fi vecino con un SSID malicioso puede ejecutar JavaScript arbitrario en el navegador del usuario al pulsar "Escanear"**, y desde ahí invocar `MicroOS.client.call("term", "exec", ...)` tomando control total de la ESP32!
+  - `frontend_src/js/apps/wifi.js:87`: ``row.innerHTML = `<span>${n.auth ? "🔒" : "🔓"} <strong>${n.ssid}</strong></span>...` `` — **un punto de acceso Wi-Fi vecino con un SSID malicioso puede ejecutar JavaScript arbitrario en el navegador del usuario al pulsar "Escanear"**, y desde ahí invocar `PyOS.client.call("term", "exec", ...)` tomando control total de la ESP32!
   - `frontend_src/js/apps/files.js:344`: ``tr.innerHTML = `<td class="mono">${meta.ico} ${item.name}</td>...` ``.
 - **Impacto**: **Ejecución remota de código en la ESP32 vía XSS desde un SSID Wi-Fi externo o nombre de archivo malicioso** (especialmente grave mientras `term.exec` esté disponible en el cliente).
-- **Recomendación**: Añadir una utilidad global `MicroOS.escHtml(str)` (6 líneas en `app.js`) o construir nodos dinámicos exclusivamente con `textContent` en `wifi.js`, `files.js`, `appstore.js`, `monitor.js`, `wm.js` y `app.js`.
+- **Recomendación**: Añadir una utilidad global `PyOS.escHtml(str)` (6 líneas en `app.js`) o construir nodos dinámicos exclusivamente con `textContent` en `wifi.js`, `files.js`, `appstore.js`, `monitor.js`, `wm.js` y `app.js`.
 - **Dificultad estimada**: Baja.
 - **Forma de verificar**: Crear un archivo llamado `<img src=x onerror=alert(1)>.txt` en `/apps` y simular un SSID con etiquetas HTML; abrir Explorador de Archivos y Ajustes Wi-Fi y verificar que se renderiza como texto literal sin ejecutar ningún script.
 
@@ -53,11 +53,11 @@
 
 ---
 
-### `FE-04` — Falta de aislamiento entre aplicaciones JavaScript y el objeto global `window.MicroOS`
+### `FE-04` — Falta de aislamiento entre aplicaciones JavaScript y el objeto global `window.PyOS`
 - **Severidad**: **Media**
 - **Archivo y líneas**: `frontend_src/js/app.js:46-52`, `frontend_src/js/app.js:58-68` (`loadAppScript`)
-- **Descripción técnica**: Todas las apps dinámicas cargadas vía `<script src="/api/apps/<id>/ui.js">` se ejecutan en el mismo contexto global `window` con acceso directo a `MicroOS.client` (pudiendo invocar cualquier RPC de cualquier otra app, leer `localStorage` o modificar el DOM de otras ventanas).
-- **Evidencia concreta**: `frontend_src/js/app.js:46-52`: expone `client` crudo en `window.MicroOS`.
+- **Descripción técnica**: Todas las apps dinámicas cargadas vía `<script src="/api/apps/<id>/ui.js">` se ejecutan en el mismo contexto global `window` con acceso directo a `PyOS.client` (pudiendo invocar cualquier RPC de cualquier otra app, leer `localStorage` o modificar el DOM de otras ventanas).
+- **Evidencia concreta**: `frontend_src/js/app.js:46-52`: expone `client` crudo en `window.PyOS`.
 - **Impacto**: Una app de terceros instalada en `/apps/` puede leer el historial de la terminal en `localStorage` o invocar `term.exec` sin declarar permisos.
 - **Recomendación**: Introducir el SDK de aplicaciones (ver `05-auditoria-appmgr.md`) entregando a cada app un `ctx.api` acotado a los permisos declarados en su `manifest.json`, respaldado por validación de capacidades en el backend.
 - **Dificultad estimada**: Media.
@@ -83,6 +83,6 @@
 - **Descripción técnica**: Varias acciones (renombrar, eliminar, propiedades, buscar en `nano`) usan `prompt()`/`confirm()`/`alert()`, que bloquean el hilo principal del navegador (congelando los *heartbeat* y eventos WebSocket mientras el diálogo está abierto).
 - **Evidencia concreta**: `frontend_src/js/apps/files.js:474`: `const newName = prompt("Nuevo nombre:", it.name);`.
 - **Impacto**: Si un usuario deja abierto un `prompt()` más de unos segundos, pueden acumularse frames WebSocket o parecer que el escritorio se congeló.
-- **Recomendación**: Crear un pequeño modal no bloqueante reutilizable `MicroOS.dialog` (~40 líneas Vanilla JS) para reemplazar `prompt`/`confirm`/`alert` en v0.2.0.
+- **Recomendación**: Crear un pequeño modal no bloqueante reutilizable `PyOS.dialog` (~40 líneas Vanilla JS) para reemplazar `prompt`/`confirm`/`alert` en v0.2.0.
 - **Dificultad estimada**: Baja.
 - **Forma de verificar**: Abrir diálogo de renombrado en Explorador de Archivos y comprobar que el reloj y el Monitor del Sistema siguen actualizándose en segundo plano.

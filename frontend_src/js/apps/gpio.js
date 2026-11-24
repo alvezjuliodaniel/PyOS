@@ -1,20 +1,20 @@
 /**
- * MicroOS App 4: Panel de Hardware (GPIO / ADC / PWM)
+ * PyOS App 4: Panel de Hardware (GPIO / ADC / PWM)
  * Se adapta automaticamente al mapa de pines seguros de la placa (C3 / S / S3).
  */
 (function (global) {
   "use strict";
 
-  global.MicroOSApps = global.MicroOSApps || [];
+  global.PyOSApps = global.PyOSApps || [];
 
-  global.MicroOSApps.push({
+  global.PyOSApps.push({
     id: "gpio",
     title: "Panel de Hardware",
     icon: "🔌",
     width: 640,
     height: 450,
     mount(container) {
-      const { client, toast } = global.MicroOS;
+      const { client, toast } = global.PyOS;
       let boardData = null;
       let adcTimer = null;
 

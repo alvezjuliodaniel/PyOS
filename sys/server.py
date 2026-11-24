@@ -1,5 +1,5 @@
 """
-MicroOS - Servidor HTTP (Streaming .gz) y Puente WebSocket (RFC 6455 / JSON-RPC)
+PyOS - Servidor HTTP (Streaming .gz) y Puente WebSocket (RFC 6455 / JSON-RPC)
 Implementado directamente sobre uasyncio.start_server para minimo consumo de RAM
 en ESP32-C3, ESP32-S y ESP32-S3.
 """

@@ -1,5 +1,5 @@
 """
-MicroOS - Script de prueba de Fase 1 (Kernel uasyncio + VFS seguro)
+PyOS - Script de prueba de Fase 1 (Kernel uasyncio + VFS seguro)
 Ejecutar en la placa con: mpremote run tests/test_phase1.py
 """
 

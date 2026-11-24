@@ -1,11 +1,11 @@
 /**
- * MicroOS - Bootstrap del Escritorio SPA
- * Conecta MicroOSClient (WebSocket JSON-RPC) con WindowManager y la barra de tareas.
+ * PyOS - Bootstrap del Escritorio SPA
+ * Conecta PyOSClient (WebSocket JSON-RPC) con WindowManager y la barra de tareas.
  */
 (function (global) {
   "use strict";
 
-  const client = new global.MicroOSClient("/ws");
+  const client = new global.PyOSClient("/ws");
   const wm = new global.WindowManager({
     desktopEl: document.getElementById("desktop"),
     layerEl: document.getElementById("windows-layer"),
@@ -48,7 +48,7 @@
   }
 
   // Namespace global compartido con las apps de Fase 5
-  const MicroOS = {
+  const PyOS = {
     client,
     wm,
     toast,
@@ -56,7 +56,7 @@
     boardInfo: null,
     lastStats: null,
   };
-  global.MicroOS = MicroOS;
+  global.PyOS = PyOS;
 
   // Cargador dinamico de aplicaciones instaladas en /apps/<id>/
   const dynamicAppIds = new Set();
@@ -103,7 +103,7 @@
     }
   }
 
-  MicroOS.syncDynamicApps = syncDynamicApps;
+  PyOS.syncDynamicApps = syncDynamicApps;
 
   // Eventos de conexion WebSocket
   client.on("ws_open", async () => {
@@ -112,12 +112,12 @@
     trayWsText.textContent = "Conectado";
     try {
       const info = await client.call("sys", "info");
-      MicroOS.boardInfo = info;
+      PyOS.boardInfo = info;
       trayBoard.textContent = `${info.name}${info.psram ? " +PSRAM" : ""}`;
       trayBoard.title = `${info.machine} | MicroPython ${info.mpy_version}`;
       const startBoard = document.getElementById("start-board-lbl");
       if (startBoard) startBoard.textContent = `${info.name}${info.psram ? " +PSRAM" : ""}`;
-      document.title = `MicroOS — ${info.name}`;
+      document.title = `PyOS — ${info.name}`;
     } catch (err) {
       console.warn("No se pudo obtener sys.info:", err);
     }
@@ -137,7 +137,7 @@
 
   // Eventos push del Kernel
   client.on("sys_stats", (stats) => {
-    MicroOS.lastStats = stats;
+    PyOS.lastStats = stats;
     if (stats && stats.mem) {
       const freeKb = Math.round(stats.mem.free / 1024);
       trayRam.textContent = `RAM ${freeKb} KB`;
@@ -158,10 +158,10 @@
     );
   });
 
-  // Ventana nativa "Acerca de MicroOS" (boton MicroOS en barra de tareas)
+  // Ventana nativa "Acerca de PyOS" (boton PyOS en barra de tareas)
   wm.registerApp({
     id: "about",
-    title: "Acerca de MicroOS",
+    title: "Acerca de PyOS",
     icon: "⚡",
     width: 420,
     height: 300,
@@ -170,7 +170,7 @@
       const render = (info, stats) => {
         container.innerHTML = `
           <div class="card" style="display:flex;flex-direction:column;gap:8px;">
-            <div style="font-size:15px;font-weight:700;">MicroOS ${info ? info.os_version : ""}</div>
+            <div style="font-size:15px;font-weight:700;">PyOS ${info ? info.os_version : ""}</div>
             <div class="muted">Minisistema operativo web en MicroPython</div>
             <div class="mono" style="font-size:12px;line-height:1.6;">
               Placa: ${info ? info.name : "---"} (${info ? info.arch : "--"})<br>
@@ -194,7 +194,7 @@
               const m = await client.call("sys", "gc");
               toast(`GC OK: ${Math.round(m.free / 1024)} KB libres`, "ok");
               const st = await client.call("sys", "stats");
-              render(MicroOS.boardInfo, st);
+              render(PyOS.boardInfo, st);
             } catch (e) {
               toast(e.message, "err");
             }
@@ -207,8 +207,8 @@
                 client.call("sys", "info"),
                 client.call("sys", "stats"),
               ]);
-              MicroOS.boardInfo = inf;
-              MicroOS.lastStats = st;
+              PyOS.boardInfo = inf;
+              PyOS.lastStats = st;
               render(inf, st);
             } catch (e) {
               toast(e.message, "err");
@@ -217,9 +217,9 @@
         }
       };
 
-      render(MicroOS.boardInfo, MicroOS.lastStats);
+      render(PyOS.boardInfo, PyOS.lastStats);
       if (client.connected) {
-        client.call("sys", "stats").then((st) => render(MicroOS.boardInfo, st)).catch(() => {});
+        client.call("sys", "stats").then((st) => render(PyOS.boardInfo, st)).catch(() => {});
       }
     },
   });
@@ -248,11 +248,11 @@
       r.setProperty("--border-focus", ACCENTS[accKey]);
     }
   }
-  MicroOS.applyAppearance = applyAppearance;
-  MicroOS.WALLPAPERS = WALLPAPERS;
-  MicroOS.ACCENTS = ACCENTS;
+  PyOS.applyAppearance = applyAppearance;
+  PyOS.WALLPAPERS = WALLPAPERS;
+  PyOS.ACCENTS = ACCENTS;
   try {
-    applyAppearance(localStorage.getItem("microos_wp"), localStorage.getItem("microos_acc"));
+    applyAppearance(localStorage.getItem("pyos_wp"), localStorage.getItem("pyos_acc"));
   } catch {}
 
   // ------------------------------------------------------------------
@@ -341,8 +341,8 @@
   window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeStartMenu(); });
 
   // Registrar aplicaciones nativas si fueron cargadas (Fase 5)
-  if (Array.isArray(global.MicroOSApps)) {
-    for (const appDef of global.MicroOSApps) {
+  if (Array.isArray(global.PyOSApps)) {
+    for (const appDef of global.PyOSApps) {
       wm.registerApp(appDef);
     }
   }
@@ -377,12 +377,12 @@
     authPass.value = "";
     authPass2.value = "";
     if (isSetupMode) {
-      authTitle.textContent = "Configurar MicroOS";
+      authTitle.textContent = "Configurar PyOS";
       authSub.textContent = "Crea la contrasena de administrador inicial (min. 4 chars)";
       authPass2.classList.remove("hidden");
       authBtn.textContent = "Crear y Entrar";
     } else {
-      authTitle.textContent = "Iniciar sesion en MicroOS";
+      authTitle.textContent = "Iniciar sesion en PyOS";
       authSub.textContent = "Introduce tus credenciales de administrador";
       authPass2.classList.add("hidden");
       authBtn.textContent = "Entrar";

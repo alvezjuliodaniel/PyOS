@@ -1,10 +1,10 @@
 /**
- * MicroOS - Cliente WebSocket con reconexion automatica y cola de promesas JSON-RPC
+ * PyOS - Cliente WebSocket con reconexion automatica y cola de promesas JSON-RPC
  */
 (function (global) {
   "use strict";
 
-  class MicroOSClient {
+  class PyOSClient {
     constructor(wsPath = "/ws") {
       this.wsPath = wsPath;
       this.ws = null;
@@ -43,7 +43,7 @@
         try {
           fn(data);
         } catch (err) {
-          console.error("[MicroOSClient] Listener error:", err);
+          console.error("[PyOSClient] Listener error:", err);
         }
       }
     }
@@ -165,5 +165,5 @@
     }
   }
 
-  global.MicroOSClient = MicroOSClient;
+  global.PyOSClient = PyOSClient;
 })(window);

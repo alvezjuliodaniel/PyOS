@@ -1,8 +1,8 @@
-# MicroOS — MQTT sobre TLS y Puente AOS IoT (Fase 10)
+# PyOS — MQTT sobre TLS y Puente AOS IoT (Fase 10)
 
 ## 1. Arquitectura y Garantías de Seguridad TLS
 
-El cliente MQTT de MicroOS ([sys/mqtt.py](../sys/mqtt.py)) implementa **MQTT 3.1.1** de forma cooperativa sobre `uasyncio` y sockets TCP + TLS **sin fallback inseguro**:
+El cliente MQTT de PyOS ([sys/mqtt.py](../sys/mqtt.py)) implementa **MQTT 3.1.1** de forma cooperativa sobre `uasyncio` y sockets TCP + TLS **sin fallback inseguro**:
 
 1. **Verificación obligatoria (`ssl.CERT_REQUIRED`)**: utiliza `ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)` con `verify_mode = ssl.CERT_REQUIRED`, cargando el certificado CA de confianza (`load_verify_locations(cadata=...)`) y validando SNI/hostname mediante `ctx.wrap_socket(raw_sock, server_hostname=host)`.
 2. **Prohibido `CERT_NONE`**: si no existe un certificado CA PEM válido cargado, `request_connect()` rechaza la operación inmediatamente.
@@ -29,7 +29,7 @@ El cliente MQTT de MicroOS ([sys/mqtt.py](../sys/mqtt.py)) implementa **MQTT 3.1
 
 ## 3. Esquema de Tópicos AOS IoT
 
-Con `aos_enabled: true` (activo por defecto), MicroOS opera como nodo administrado usando su `client_id` único como `<device_id>`:
+Con `aos_enabled: true` (activo por defecto), PyOS opera como nodo administrado usando su `client_id` único como `<device_id>`:
 
 | Tópico | Dirección | Descripción |
 | :--- | :---: | :--- |
@@ -41,7 +41,7 @@ Con `aos_enabled: true` (activo por defecto), MicroOS opera como nodo administra
 
 ---
 
-## 4. Uso desde MicroOS MQTT Center (`📡`)
+## 4. Uso desde PyOS MQTT Center (`📡`)
 
 1. Abre **Inicio → 📡 MQTT Center** (o el icono del escritorio).
 2. En **🔐 Conexión y TLS**: introduce el Host de tu broker AOS IoT, puerto (`8883`), usuario, contraseña y pega o carga el archivo **CA PEM** (`.pem` / `.crt`). Pulsa **Guardar Configuración** y luego **Conectar**.

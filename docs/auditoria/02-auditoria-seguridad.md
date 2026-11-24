@@ -1,8 +1,8 @@
-# 02 — Auditoría de Seguridad (MicroOS v0.1.0)
+# 02 — Auditoría de Seguridad (PyOS v0.1.0)
 
 > **Prioridad**: Crítica.  
 > **Metodología**: Inspección directa de `sys/server.py`, `sys/rpc.py`, `sys/fs.py`, `sys/net.py`, `sys/appmgr.py`, `config/wifi.json` y `frontend_src/`.  
-> **Nota**: MicroOS v0.1.0 fue construido como prototipo funcional en red local; **NO debe exponerse a redes no confiables ni a Internet sin resolver los hallazgos críticos de este documento**.
+> **Nota**: PyOS v0.1.0 fue construido como prototipo funcional en red local; **NO debe exponerse a redes no confiables ni a Internet sin resolver los hallazgos críticos de este documento**.
 
 ---
 
@@ -11,7 +11,7 @@
 ### `SEC-01` — Ausencia total de autenticación y autorización en HTTP, WebSocket y JSON-RPC
 - **Severidad**: **Crítica**
 - **Archivo y líneas**: `sys/server.py:424-483` (`_handle_websocket`), `sys/server.py:328-395` (`_handle_download`, `_handle_upload`), `sys/rpc.py:75-97` (`dispatch`)
-- **Descripción técnica**: Cualquier dispositivo en la misma red Wi-Fi (o conectado al AP abierto `MicroOS-Setup`) puede conectarse a `ws://<ip>/ws` o llamar a `/api/fs/upload` y `/api/fs/download` sin token, sesión ni contraseña, obteniendo control total del microcontrolador (ejecución de código Python, lectura/escritura de cualquier archivo, control GPIO/PWM y reinicio).
+- **Descripción técnica**: Cualquier dispositivo en la misma red Wi-Fi (o conectado al AP abierto `PyOS-Setup`) puede conectarse a `ws://<ip>/ws` o llamar a `/api/fs/upload` y `/api/fs/download` sin token, sesión ni contraseña, obteniendo control total del microcontrolador (ejecución de código Python, lectura/escritura de cualquier archivo, control GPIO/PWM y reinicio).
 - **Evidencia concreta**: `sys/server.py:424-441` completa el handshake WebSocket verificando únicamente la presencia de `sec-websocket-key`; `sys/rpc.py:75-97` despacha cualquier `app`/`cmd` sin validar identidad ni permisos.
 - **Impacto**: Compromiso total del dispositivo (*Remote Code Execution*, robo de credenciales Wi-Fi, manipulación física de actuadores GPIO/PWM, destrucción del sistema de archivos).
 - **Recomendación**: Implementar autenticación obligatoria en v0.2.0:
@@ -57,7 +57,7 @@
 ### `SEC-04` — WebSocket sin validación de `Origin` (vulnerable a Cross-Site WebSocket Hijacking — CSWSH)
 - **Severidad**: **Crítica**
 - **Archivo y líneas**: `sys/server.py:424-441` (`_handle_websocket`)
-- **Descripción técnica**: Los navegadores no aplican CORS estándar a las conexiones WebSocket; en su lugar envían la cabecera `Origin`. `sys/server.py` ignora completamente `headers.get("origin")`. Si un usuario visita una página web maliciosa en otra pestaña mientras está en la misma LAN que su ESP32 (`http://microos.local` o `http://192.168.x.x`), esa página externa puede abrir `new WebSocket("ws://microos.local/ws")` y ejecutar `term.exec`, `gpio.set` o `sys.reboot` en silencio.
+- **Descripción técnica**: Los navegadores no aplican CORS estándar a las conexiones WebSocket; en su lugar envían la cabecera `Origin`. `sys/server.py` ignora completamente `headers.get("origin")`. Si un usuario visita una página web maliciosa en otra pestaña mientras está en la misma LAN que su ESP32 (`http://pyos.local` o `http://192.168.x.x`), esa página externa puede abrir `new WebSocket("ws://pyos.local/ws")` y ejecutar `term.exec`, `gpio.set` o `sys.reboot` en silencio.
 - **Evidencia concreta**: `sys/server.py:424-441`: solo lee `headers.get("sec-websocket-key")`; no existe ninguna referencia a `"origin"` en todo `sys/server.py`.
 - **Impacto**: Control remoto total del ESP32 desde cualquier sitio web externo visitado por el usuario en su LAN.
 - **Recomendación**: Validar que `Origin` (si está presente) coincida exactamente con `http://<Host>` (o `https://<Host>`) de la propia placa; rechazar con `403 Forbidden` cualquier otro origen, combinado con token de sesión obligatorio (`SEC-01`).
@@ -68,7 +68,7 @@
 
 ## 2. Hallazgos Altos
 
-### `SEC-05` — Modo AP de respaldo `MicroOS-Setup` abierto (sin contraseña WPA2)
+### `SEC-05` — Modo AP de respaldo `PyOS-Setup` abierto (sin contraseña WPA2)
 - **Severidad**: **Alta**
 - **Archivo y líneas**: `config/wifi.json:10-16`, `sys/net.py:149-155`
 - **Descripción técnica**: Por defecto `ap.password` es `""`, por lo que `_start_ap()` levanta una red abierta `AUTH_OPEN` sin cifrado. Cualquier persona dentro del alcance Wi-Fi puede conectarse y tomar control del dispositivo.
@@ -162,7 +162,7 @@
 
 ---
 
-## 5. Evaluación Realista de TLS / HTTPS en MicroOS
+## 5. Evaluación Realista de TLS / HTTPS en PyOS
 
 - **Servidor HTTPS en la ESP32**: **NO recomendado como obligatorio en perfil `strict`** (ESP32-C3 / ESP32 sin PSRAM). Cada sesión TLS entrante con mbedTLS consume entre **35 KB y 50 KB de RAM interna** (buffers SSL de 16 KB + estado de handshake), lo que con 2 conexiones simultáneas agotaría el heap de 112–174 KB. Además los certificados autofirmados generan advertencias de navegador en redes LAN locales.
 - **Cliente TLS saliente (ej. MQTT sobre TLS puerto 8883 — Fase 10)**: Una **única** sesión TLS cliente saliente es viable en perfil `standard` (ESP32 con PSRAM ~4 MB) y `extended` (ESP32-S3), y **debe medirse en hardware real** en perfil `strict` (ver documento `03-auditoria-memoria.md` y evaluación de Fase 10).

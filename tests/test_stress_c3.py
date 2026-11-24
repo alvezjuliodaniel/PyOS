@@ -1,5 +1,5 @@
 """
-MicroOS - Prueba de Estres de Memoria (ESP32-C3 / S / S3)
+PyOS - Prueba de Estres de Memoria (ESP32-C3 / S / S3)
 Valida estabilidad del stack completo:
   HAL + FS + Kernel + Wi-Fi AP + HTTP Streaming (/www/*.gz) + 20 RPCs WebSocket.
 Ejecutar en placa: mpremote run tests/test_stress_c3.py
@@ -49,7 +49,7 @@ async def _ws_read(reader):
 
 
 async def run_stress():
-    print("\n=== MicroOS Fase 6: Prueba de Estres de Memoria ===")
+    print("\n=== PyOS Fase 6: Prueba de Estres de Memoria ===")
     k = kernel.Kernel()
     nm = net.NetManager(kern=k)
     rt = rpc.RPCRouter(kern=k, net_mgr=nm)
@@ -82,7 +82,7 @@ async def run_stress():
         for rnd in range(2):
             for path in assets:
                 r, w = await asyncio.open_connection("127.0.0.1", 8081)
-                req = "GET {} HTTP/1.1\r\nHost: microos\r\nAccept-Encoding: gzip\r\n\r\n".format(path)
+                req = "GET {} HTTP/1.1\r\nHost: pyos\r\nAccept-Encoding: gzip\r\n\r\n".format(path)
                 w.write(req.encode("utf-8"))
                 await w.drain()
                 raw = await r.read()
@@ -103,7 +103,7 @@ async def run_stress():
         # 2. Sesion WebSocket con 20 llamadas JSON-RPC rapidas
         r, w = await asyncio.open_connection("127.0.0.1", 8081)
         w.write(
-            b"GET /ws HTTP/1.1\r\nHost: microos\r\nUpgrade: websocket\r\n"
+            b"GET /ws HTTP/1.1\r\nHost: pyos\r\nUpgrade: websocket\r\n"
             b"Connection: Upgrade\r\nSec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n"
             b"Sec-WebSocket-Version: 13\r\n\r\n"
         )

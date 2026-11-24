@@ -1,5 +1,5 @@
 """
-MicroOS - Capa de Abstraccion de Hardware (HAL)
+PyOS - Capa de Abstraccion de Hardware (HAL)
 Compatible con ESP32-C3 (RISC-V), ESP32-S (Xtensa LX6) y ESP32-S3 (Xtensa LX7).
 Disenado con minimo consumo de RAM y compatibilidad con mpy-cross.
 """

@@ -1,4 +1,4 @@
-# 06 — Plan de Pruebas y Validación de Estabilidad (MicroOS v0.1.0 → v0.2.0)
+# 06 — Plan de Pruebas y Validación de Estabilidad (PyOS v0.1.0 → v0.2.0)
 
 > **Principio rector**: Distinguir estrictamente entre pruebas **simuladas en host**, **automatizadas en placa** y **burn-in prolongado en hardware real**. Ninguna prueba prolongada (24/48/72 h) se declara superada hasta completarla físicamente y registrar su evidencia.
 
@@ -10,7 +10,7 @@
 | :--- | :--- | :--- | :--- |
 | `tests/test_hal.py` | Hardware real | **Ejecutado y PASS** en ESP32-C3 | Autodetección, pines prohibidos, GPIO, PWM, ADC1, telemetría. |
 | `tests/test_phase1.py` | Hardware real | **Ejecutado y PASS** en ESP32-C3 | Anti *path-traversal*, streaming por bloques, supervisor con 2 fallos y reinicio. |
-| `tests/test_phase2.py` | Hardware real | **Ejecutado y PASS** en ESP32-C3 | AP de respaldo `MicroOS-Setup`, hostname `microos`, escaneo Wi-Fi. |
+| `tests/test_phase2.py` | Hardware real | **Ejecutado y PASS** en ESP32-C3 | AP de respaldo `PyOS-Setup`, hostname `pyos`, escaneo Wi-Fi. |
 | `tests/test_phase3.py` | Hardware real (loopback) | **Ejecutado y PASS** en ESP32-C3 | HTTP `.gz`, upload/download streaming, WS RFC 6455, JSON-RPC, push `sys_stats`. |
 | `tests/test_stress_c3.py` | Hardware real (estrés corto) | **Ejecutado y PASS** en ESP32-C3 | 18 peticiones HTTP `.gz` + 20 RPCs WS; `ram_min: 72,528 B`, `ram_end: 108,736 B`. |
 

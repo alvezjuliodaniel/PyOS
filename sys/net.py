@@ -1,7 +1,7 @@
 """
-MicroOS - Gestor de Red Wi-Fi Resiliente (STA + AP de respaldo)
+PyOS - Gestor de Red Wi-Fi Resiliente (STA + AP de respaldo)
 100% cooperativo sobre uasyncio (sin time.sleep bloqueante).
-Soporta reconexion automatica en segundo plano y hostname local (microos).
+Soporta reconexion automatica en segundo plano y hostname local (pyos).
 """
 
 import gc
@@ -36,14 +36,14 @@ class NetManager:
     """
     Administra la conectividad Wi-Fi en modo dual:
     - STA principal usando credenciales de /config/wifi.json
-    - AP de respaldo ('MicroOS-Setup') si no hay credenciales o falla STA
+    - AP de respaldo ('PyOS-Setup') si no hay credenciales o falla STA
     - Reconexion automatica en segundo plano sin bloquear el Kernel
     """
 
     def __init__(self, config_path=_DEFAULT_WIFI_PATH, kern=None):
         self.config_path = config_path
         self.kernel = kern if kern is not None else kernel.get_kernel()
-        self.hostname = self.kernel.hostname or "microos"
+        self.hostname = self.kernel.hostname or "pyos"
 
         self.sta = network.WLAN(network.STA_IF)
         self.ap = network.WLAN(network.AP_IF)
@@ -62,7 +62,7 @@ class NetManager:
                 "reconnect_interval_s": 30,
             },
             "ap": {
-                "ssid": "MicroOS-Setup",
+                "ssid": "PyOS-Setup",
                 "password": "",
                 "ip": "192.168.4.1",
                 "channel": 6,
@@ -113,9 +113,9 @@ class NetManager:
                 pass
 
     def _start_ap(self):
-        """Activa el Access Point de respaldo (MicroOS-Setup)."""
+        """Activa el Access Point de respaldo (PyOS-Setup)."""
         ap_cfg = self._cfg.get("ap", {})
-        ssid = ap_cfg.get("ssid") or "MicroOS-Setup"
+        ssid = ap_cfg.get("ssid") or "PyOS-Setup"
         password = ap_cfg.get("password") or ""
         ip = ap_cfg.get("ip") or "192.168.4.1"
         channel = int(ap_cfg.get("channel") or 6)
@@ -257,7 +257,7 @@ class NetManager:
             return {
                 "mode": "ap",
                 "connected": True,
-                "ssid": self._cfg.get("ap", {}).get("ssid", "MicroOS-Setup"),
+                "ssid": self._cfg.get("ap", {}).get("ssid", "PyOS-Setup"),
                 "ip": cfg[0],
                 "netmask": cfg[1],
                 "gateway": cfg[2],

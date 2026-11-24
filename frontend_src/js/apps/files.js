@@ -1,5 +1,5 @@
 /**
- * MicroOS App: Explorador de Archivos estilo Windows 7 (LittleFS)
+ * PyOS App: Explorador de Archivos estilo Windows 7 (LittleFS)
  * Incluye: historial Atras/Adelante, Breadcrumbs, busqueda instantanea,
  * barra de comandos (Organizar, Copiar/Cortar/Pegar, Renombrar, Nueva carpeta),
  * panel izquierdo de Favoritos, vistas Detalles/Iconos/Lista, ordenamiento,
@@ -8,7 +8,7 @@
 (function (global) {
   "use strict";
 
-  global.MicroOSApps = global.MicroOSApps || [];
+  global.PyOSApps = global.PyOSApps || [];
 
   function fmtSize(bytes) {
     if (bytes >= 1048576) return `${(bytes / 1048576).toFixed(2)} MB`;
@@ -31,14 +31,14 @@
     return dir === "/" ? `/${name}` : `${dir.replace(/\/+$/, "")}/${name}`;
   }
 
-  global.MicroOSApps.push({
+  global.PyOSApps.push({
     id: "files",
     title: "Explorador de Archivos",
     icon: "📁",
     width: 820,
     height: 520,
     mount(container, ctx) {
-      const { client, toast, escHtml } = global.MicroOS;
+      const { client, toast, escHtml } = global.PyOS;
 
       let currentDir = "/";
       let entries = [];
@@ -277,14 +277,14 @@
               renderItems();
             }
             const paths = Array.from(selected);
-            e.dataTransfer.setData("application/x-microos-paths", JSON.stringify(paths));
+            e.dataTransfer.setData("application/x-pyos-paths", JSON.stringify(paths));
             e.dataTransfer.effectAllowed = "move";
           });
 
           // Si el elemento es carpeta, aceptar soltar archivos sobre ella
           if (item.type === "dir") {
             el.addEventListener("dragover", (e) => {
-              if (e.dataTransfer.types.includes("application/x-microos-paths")) {
+              if (e.dataTransfer.types.includes("application/x-pyos-paths")) {
                 e.preventDefault();
                 e.stopPropagation();
                 el.classList.add("drop-target");
@@ -292,7 +292,7 @@
             });
             el.addEventListener("dragleave", () => el.classList.remove("drop-target"));
             el.addEventListener("drop", async (e) => {
-              const raw = e.dataTransfer.getData("application/x-microos-paths");
+              const raw = e.dataTransfer.getData("application/x-pyos-paths");
               if (!raw) return;
               e.preventDefault();
               e.stopPropagation();
@@ -669,14 +669,14 @@
         b.onclick = () => navigate(b.dataset.nav);
         // Permitir soltar archivos arrastrados en los accesos del panel izquierdo
         b.ondragover = (e) => {
-          if (e.dataTransfer.types.includes("application/x-microos-paths")) {
+          if (e.dataTransfer.types.includes("application/x-pyos-paths")) {
             e.preventDefault();
             b.classList.add("drop-target");
           }
         };
         b.ondragleave = () => b.classList.remove("drop-target");
         b.ondrop = async (e) => {
-          const raw = e.dataTransfer.getData("application/x-microos-paths");
+          const raw = e.dataTransfer.getData("application/x-pyos-paths");
           if (!raw) return;
           e.preventDefault();
           b.classList.remove("drop-target");

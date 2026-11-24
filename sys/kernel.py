@@ -1,5 +1,5 @@
 """
-MicroOS - Kernel Asincrono (uasyncio)
+PyOS - Kernel Asincrono (uasyncio)
 Gestiona el ciclo de vida de tareas cooperativas (Task Manager), supervision
 con reinicio automatico de servicios criticos, mantenimiento activo de memoria
 (GC + alertas de RAM) y bus de eventos/logs ligero para el sistema.
@@ -67,16 +67,16 @@ class _TaskEntry:
 
 class Kernel:
     """
-    Nucleo cooperativo de MicroOS sobre uasyncio.
+    Nucleo cooperativo de PyOS sobre uasyncio.
     """
 
     def __init__(self, config_path="/config/system.json"):
         self.hal = hal.get_hal()
         cfg = fs.read_json(config_path, default={}) or {}
 
-        self.name = cfg.get("name", "MicroOS")
+        self.name = cfg.get("name", "PyOS")
         self.version = cfg.get("version", "0.2.0")
-        self.hostname = cfg.get("hostname", "microos")
+        self.hostname = cfg.get("hostname", "pyos")
         self.allow_remote_python = bool(cfg.get("allow_remote_python", True))
         self._log_max = cfg.get("log_max_entries", 32)
         self._telemetry_ms = cfg.get("telemetry_interval_ms", 2000)

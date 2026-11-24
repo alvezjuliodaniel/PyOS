@@ -1,5 +1,5 @@
 """
-MicroOS - Enrutador JSON-RPC para WebSocket
+PyOS - Enrutador JSON-RPC para WebSocket
 Protocolo:
   Req: {"id": 1, "app": "gpio", "cmd": "set", "args": {"pin": 0, "val": 1}}
   Res: {"id": 1, "ok": true, "data": ...} | {"id": 1, "ok": false, "error": "..."}

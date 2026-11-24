@@ -1,5 +1,5 @@
 """
-MicroOS App: Monitor de Estado en Pantalla OLED I2C SSD1306
+PyOS App: Monitor de Estado en Pantalla OLED I2C SSD1306
 Muestra al iniciar y en tiempo real:
   - Modo de red (AP / STA / OFF)
   - Estado de conexion y SSID
@@ -190,7 +190,7 @@ class OLEDStatusApp:
         d = self.oled
         d.fill(0)
         d.fill_rect(0, 0, self.width, 12, 1)
-        d.text("MicroOS", 36, 2, 0)
+        d.text("PyOS", 36, 2, 0)
         d.text(self.hal.board_name[:16], 0, 18, 1)
         if self.height >= 64:
             d.text("Iniciando red...", 0, 34, 1)
@@ -210,10 +210,10 @@ class OLEDStatusApp:
 
         d.fill(0)
 
-        # Barra superior invertida: MicroOS + [AP] / [STA] / [OFF]
+        # Barra superior invertida: PyOS + [AP] / [STA] / [OFF]
         badge = "AP" if mode == "AP" else ("STA" if mode == "STA" else "OFF")
         d.fill_rect(0, 0, self.width, 11, 1)
-        d.text("MicroOS", 2, 2, 0)
+        d.text("PyOS", 2, 2, 0)
         d.text("[{}]".format(badge), self.width - (len(badge) + 2) * 8 - 2, 2, 0)
 
         if self._custom_msg:
@@ -246,7 +246,7 @@ class OLEDStatusApp:
         if mode == "STA" and rssi is not None:
             d.text("RSSI:{} dBm".format(rssi)[:16], 0, 46, 1)
         else:
-            d.text((st.get("hostname", "microos") + ".local")[:16], 0, 46, 1)
+            d.text((st.get("hostname", "pyos") + ".local")[:16], 0, 46, 1)
 
         # Linea 6: Mini telemetria RAM + Temp
         ram_kb = gc.mem_free() // 1024

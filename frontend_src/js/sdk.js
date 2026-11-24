@@ -1,13 +1,13 @@
 /**
- * MicroOS SDK v0.2.0 (Vanilla JS, preparado para compatibilidad AOS)
- * Expone MicroOS.defineApp(...) con permisos declarados, APIs tipadas
+ * PyOS SDK v0.2.0 (Vanilla JS, preparado para compatibilidad AOS)
+ * Expone PyOS.defineApp(...) con permisos declarados, APIs tipadas
  * (system, fs, gpio, net, mqtt, ui, events) y limpieza automatica de recursos.
  */
 (function (global) {
   "use strict";
 
   function createScopedSDK(permsSet, addCleanup) {
-    const { client, toast, escHtml } = global.MicroOS;
+    const { client, toast, escHtml } = global.PyOS;
 
     function check(cap) {
       if (permsSet.size > 0 && !permsSet.has(cap) && !permsSet.has("*")) {
@@ -79,7 +79,7 @@
     if (!spec || !spec.id) throw new Error("defineApp requiere 'id'");
     const perms = new Set(Array.isArray(spec.permissions) ? spec.permissions : ["*"]);
 
-    global.MicroOS.wm.registerApp({
+    global.PyOS.wm.registerApp({
       id: spec.id,
       title: spec.title || spec.id,
       icon: spec.icon || "🧩",
@@ -119,12 +119,12 @@
     });
   }
 
-  // Enlazar al objeto MicroOS cuando este disponible
+  // Enlazar al objeto PyOS cuando este disponible
   function attach() {
-    if (global.MicroOS) {
-      global.MicroOS.defineApp = defineApp;
+    if (global.PyOS) {
+      global.PyOS.defineApp = defineApp;
     }
   }
   attach();
-  global._attachMicroOSSDK = attach;
+  global._attachPyOSSDK = attach;
 })(window);

@@ -1,5 +1,5 @@
 """
-MicroOS - main.py
+PyOS - main.py
 Punto de entrada principal del Kernel cooperativo sobre uasyncio.
 """
 
@@ -71,7 +71,7 @@ def main():
     try:
         asyncio.run(k.start())
     except KeyboardInterrupt:
-        print("\n[MicroOS] Interrupcion por teclado (REPL activo).")
+        print("\n[PyOS] Interrupcion por teclado (REPL activo).")
     finally:
         srv.close()
         k.stop()

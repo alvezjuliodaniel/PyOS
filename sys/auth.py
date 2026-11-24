@@ -1,5 +1,5 @@
 """
-MicroOS - Modulo de Autenticacion y Sesiones (v0.2.0)
+PyOS - Modulo de Autenticacion y Sesiones (v0.2.0)
 Almacena credenciales como salt + SHA-256 iterado en /config/secrets/auth.json
 y gestiona tokens de sesion aleatorios en RAM (Cookie HttpOnly; SameSite=Strict).
 """

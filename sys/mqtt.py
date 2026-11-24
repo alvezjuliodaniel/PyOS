@@ -1,5 +1,5 @@
 """
-MicroOS - Cliente MQTT 3.1.1 Asincrono sobre TLS Estricto (Fase 10)
+PyOS - Cliente MQTT 3.1.1 Asincrono sobre TLS Estricto (Fase 10)
 - Transporte obligatorio: TCP + TLS (ssl.CERT_REQUIRED + CA + SNI/hostname).
 - Prohibido CERT_NONE o fallback sin cifrado.
 - Cooperativo sobre uasyncio (no bloquea HTTP ni WebSocket).
@@ -70,7 +70,7 @@ def _encode_str(s):
 
 def _default_client_id():
     uid = binascii.hexlify(machine.unique_id()).decode("ascii")[-8:]
-    return "microos-" + uid
+    return "pyos-" + uid
 
 
 def _valid_topic(topic, allow_wildcards=False):

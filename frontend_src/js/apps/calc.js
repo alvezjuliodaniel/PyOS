@@ -1,10 +1,10 @@
 /**
- * MicroOS App: Calculadora (Estandar + Vista HEX/BIN para embebidos)
+ * PyOS App: Calculadora (Estandar + Vista HEX/BIN para embebidos)
  */
 (function (global) {
   "use strict";
 
-  global.MicroOSApps = global.MicroOSApps || [];
+  global.PyOSApps = global.PyOSApps || [];
 
   function safeEvalExpr(expr) {
     // Evaluador aritmetico puro por descenso recursivo (cero eval/Function - FE-02)
@@ -55,7 +55,7 @@
     return Math.round(val * 1e10) / 1e10;
   }
 
-  global.MicroOSApps.push({
+  global.PyOSApps.push({
     id: "calc",
     title: "Calculadora",
     icon: "🧮",

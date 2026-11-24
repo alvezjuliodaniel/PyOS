@@ -1,5 +1,5 @@
 """
-MicroOS v0.2.0 - Pruebas de Regresion de Seguridad (Etapa A)
+PyOS v0.2.0 - Pruebas de Regresion de Seguridad (Etapa A)
 Valida SEC-01 (auth 401/login), SEC-02 (secretos y write-protect),
 SEC-03 (roles y allow_remote_python), SEC-04 (WS Origin CSWSH),
 SEC-06 (413 upload), SEC-09 (431 cabecera larga) y APP-04 (manifest traversal).
@@ -30,7 +30,7 @@ import server
 
 
 async def run_security_tests():
-    print("\n=== MicroOS v0.2.0: Pruebas de Seguridad (Etapa A) ===")
+    print("\n=== PyOS v0.2.0: Pruebas de Seguridad (Etapa A) ===")
 
     # [1] SEC-02: Secretos bloqueados y archivos del sistema protegidos contra escritura
     for secret_p in ("/config/wifi.json", "/config/secrets/auth.json", "/apps/x.secret"):

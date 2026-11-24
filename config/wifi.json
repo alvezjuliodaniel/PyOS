@@ -7,7 +7,7 @@
     "txpower": 8.5
   },
   "ap": {
-    "ssid": "MicroOS-Setup",
+    "ssid": "PyOS-Setup",
     "password": "",
     "ip": "192.168.4.1",
     "channel": 6,

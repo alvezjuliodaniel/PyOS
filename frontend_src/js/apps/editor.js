@@ -1,19 +1,19 @@
 /**
- * MicroOS App: Editor de Texto / Notas (integrado con LittleFS y REPL Python)
+ * PyOS App: Editor de Texto / Notas (integrado con LittleFS y REPL Python)
  */
 (function (global) {
   "use strict";
 
-  global.MicroOSApps = global.MicroOSApps || [];
+  global.PyOSApps = global.PyOSApps || [];
 
-  global.MicroOSApps.push({
+  global.PyOSApps.push({
     id: "editor",
     title: "Editor de Texto",
     icon: "📝",
     width: 620,
     height: 440,
     mount(container, ctx) {
-      const { client, toast } = global.MicroOS;
+      const { client, toast } = global.PyOS;
       let currentPath = "/apps/nota.txt";
       let dirty = false;
 

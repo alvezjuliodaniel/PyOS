@@ -1,12 +1,12 @@
 /**
- * MicroOS App 1: Monitor del Sistema
+ * PyOS App 1: Monitor del Sistema
  * Grafico dual en <canvas> (RAM libre + Carga CPU %), metricas por nucleo,
  * uso de Flash, RSSI Wi-Fi y gestor de tareas uasyncio activas.
  */
 (function (global) {
   "use strict";
 
-  global.MicroOSApps = global.MicroOSApps || [];
+  global.PyOSApps = global.PyOSApps || [];
 
   function fmtUptime(sec) {
     const s = Math.max(0, Number(sec) || 0);
@@ -16,14 +16,14 @@
     return `${h}:${m}:${r}`;
   }
 
-  global.MicroOSApps.push({
+  global.PyOSApps.push({
     id: "monitor",
     title: "Monitor del Sistema",
     icon: "📊",
     width: 650,
     height: 510,
     mount(container) {
-      const { client, toast, escHtml } = global.MicroOS;
+      const { client, toast, escHtml } = global.PyOS;
       const ramHistory = [];
       const cpuHistory = [];
       const MAX_PTS = 40;

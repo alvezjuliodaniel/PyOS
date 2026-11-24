@@ -1,6 +1,6 @@
-# 01 — Auditoría de Arquitectura Actual (MicroOS v0.1.0)
+# 01 — Auditoría de Arquitectura Actual (PyOS v0.1.0)
 
-> **Alcance**: Inspección estática y funcional del código fuente real de MicroOS v0.1.0 sin modificar archivos del sistema.  
+> **Alcance**: Inspección estática y funcional del código fuente real de PyOS v0.1.0 sin modificar archivos del sistema.  
 > **Hardware verificado**: ESP32-C3 SuperMini (sin PSRAM), ESP32 DevKit v1 (sin PSRAM) y ESP32-CAM (`PSRAM64H`, ~4 MB heap SPIRAM). ESP32-S3 soportada por configuración en `hal.py`/`boards.json`, **no validada físicamente todavía**.
 
 ---
@@ -14,13 +14,13 @@
 | HAL | `sys/hal.py` | 549 | Autodetección de chip/PSRAM, mapa de pines seguros, GPIO/ADC1/PWM y telemetría. | `machine`, `esp32`, `ujson`, `gc`, `os`, `sys`, `time` |
 | VFS / FS seguro | `sys/fs.py` | 331 | Normalización anti *path-traversal*, listado `ilistdir`, streaming por chunks y copia por bloques. | `os`, `ujson`, `micropython.const` |
 | Kernel asíncrono | `sys/kernel.py` | 404 | Supervisor de tareas, Watchdog de RAM + GC, carga CPU cooperativa, ring buffer de logs y bus de eventos. | `uasyncio`, `gc`, `time`, `hal`, `fs` |
-| Red Wi-Fi | `sys/net.py` | 396 | Modo dual STA + AP (`MicroOS-Setup`), reconexión asíncrona, hostname `microos` y `txpower`. | `uasyncio`, `network`, `gc`, `fs`, `kernel` |
+| Red Wi-Fi | `sys/net.py` | 396 | Modo dual STA + AP (`PyOS-Setup`), reconexión asíncrona, hostname `pyos` y `txpower`. | `uasyncio`, `network`, `gc`, `fs`, `kernel` |
 | Router JSON-RPC | `sys/rpc.py` | 319 | Despachador de comandos `sys`, `gpio`, `fs`, `net`, `term` y apps dinámicas. | `gc`, `os`, `sys`, `hal`, `fs`, `kernel`, `net` |
 | Servidor HTTP/WS | `sys/server.py` | 613 | Servidor `uasyncio.start_server`: estáticos `.gz`, upload/download streaming, `/api/apps/*` y WebSocket RFC 6455. | `uasyncio`, `hashlib`, `binascii`, `struct`, `ujson`, `fs`, `kernel`, `rpc` |
 | Gestor de Apps | `sys/appmgr.py` | 256 | Descubrimiento, instalación, carga/recarga en caliente y desinstalación en `/apps/<id>/`. | `gc`, `sys`, `fs`, `kernel` |
 | OLED SSD1306 | `apps/oled_status.py` | 298 | Driver I2C `framebuf` + tarea cooperativa de estado Wi-Fi/IP/RAM. | `framebuf`, `machine.SoftI2C`, `uasyncio`, `fs`, `kernel`, `net` |
 | Frontend SPA | `frontend_src/` | ~2,950 | Escritorio estilo Win7, Window Manager, cliente WS JSON-RPC y 9 apps nativas en Vanilla JS. | Ninguna dependencia externa |
-| Host Tools | `tools/build.py`, `tools/microos_studio.py` | 1,082 | Minificador + gzip, compilación `.mpy`, despliegue `mpremote` / `--no-dtr` y GUI Tkinter. | Python 3 stdlib, `pyserial`, `mpremote` |
+| Host Tools | `tools/build.py`, `tools/pyos_studio.py` | 1,082 | Minificador + gzip, compilación `.mpy`, despliegue `mpremote` / `--no-dtr` y GUI Tkinter. | Python 3 stdlib, `pyserial`, `mpremote` |
 
 ---
 

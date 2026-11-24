@@ -1,19 +1,19 @@
 /**
- * MicroOS App: Ajustes Wi-Fi (Estado, Escaneo 2.4 GHz y Conexion STA)
+ * PyOS App: Ajustes Wi-Fi (Estado, Escaneo 2.4 GHz y Conexion STA)
  */
 (function (global) {
   "use strict";
 
-  global.MicroOSApps = global.MicroOSApps || [];
+  global.PyOSApps = global.PyOSApps || [];
 
-  global.MicroOSApps.push({
+  global.PyOSApps.push({
     id: "wifi",
     title: "Ajustes Wi-Fi",
     icon: "📶",
     width: 480,
     height: 430,
     mount(container) {
-      const { client, toast, escHtml } = global.MicroOS;
+      const { client, toast, escHtml } = global.PyOS;
 
       container.innerHTML = `
         <div style="display:flex;flex-direction:column;gap:10px;height:100%;">
@@ -112,7 +112,7 @@
         if (!ssid) return toast("Introduce un SSID", "warn");
         try {
           await client.call("net", "connect", { ssid, password });
-          toast(`Conectando a "${ssid}"... Accede luego a http://microos.local`, "ok", 5000);
+          toast(`Conectando a "${ssid}"... Accede luego a http://pyos.local`, "ok", 5000);
         } catch (e) {
           toast(e.message, "err");
         }

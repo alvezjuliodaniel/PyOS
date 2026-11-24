@@ -1,5 +1,5 @@
 """
-MicroOS - Script de prueba de Fase 2 (Conectividad Wi-Fi STA + AP de respaldo)
+PyOS - Script de prueba de Fase 2 (Conectividad Wi-Fi STA + AP de respaldo)
 Ejecutar en la placa con: mpremote run tests/test_phase2.py
 """
 
@@ -20,7 +20,7 @@ import net
 
 
 async def test_net_async():
-    print("\n=== MicroOS Fase 2: Pruebas de Red (STA / AP / Hostname) ===")
+    print("\n=== PyOS Fase 2: Pruebas de Red (STA / AP / Hostname) ===")
     k = kernel.Kernel()
     nm = net.NetManager(kern=k)
 
@@ -35,14 +35,14 @@ async def test_net_async():
         if hasattr(network, "hostname"):
             hn = network.hostname()
             print("  Hostname activo:", hn)
-            assert hn == "microos", "Hostname inesperado: {}".format(hn)
+            assert hn == "pyos", "Hostname inesperado: {}".format(hn)
 
         assert st["connected"] is True, "Deberia estar conectado en modo STA o AP"
         assert st["mode"] in ("sta", "ap"), "Modo invalido: {}".format(st["mode"])
         if st["mode"] == "ap":
-            assert st["ssid"] == "MicroOS-Setup"
+            assert st["ssid"] == "PyOS-Setup"
             assert st["ip"] == "192.168.4.1"
-            print("  OK AP de respaldo 'MicroOS-Setup' activo en 192.168.4.1")
+            print("  OK AP de respaldo 'PyOS-Setup' activo en 192.168.4.1")
         else:
             print("  OK STA conectado en IP:", st["ip"], "RSSI:", st["rssi"])
 

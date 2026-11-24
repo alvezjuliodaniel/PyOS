@@ -1,12 +1,12 @@
 """
-MicroOS - Gestor Dinamico de Aplicaciones (AppManager)
+PyOS - Gestor Dinamico de Aplicaciones (AppManager)
 Permite instalar, cargar en caliente, recargar y desinstalar aplicaciones
 en /apps/<id>/ sin modificar el firmware MicroPython ni reiniciar la placa.
 
 Estructura de una app en /apps/<id>/:
   - manifest.json : metadatos (id, name, version, icon, description, ui, backend, autostart)
   - backend.py    : opcional; puede definir rpc(cmd, args, ctx) y/o async def run(ctx)
-  - ui.js         : opcional; script Vanilla JS que llama a MicroOS.wm.registerApp(...)
+  - ui.js         : opcional; script Vanilla JS que llama a PyOS.wm.registerApp(...)
 """
 
 import gc

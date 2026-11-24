@@ -1,5 +1,5 @@
 /**
- * MicroOS - Gestor de Ventanas (Window Manager) en Vanilla JS
+ * PyOS - Gestor de Ventanas (Window Manager) en Vanilla JS
  * Soporta arrastrar, redimensionar, minimizar, maximizar, cerrar y z-index dinamico.
  */
 (function (global) {
@@ -33,7 +33,7 @@
 
     _loadGeom(appId) {
       try {
-        const raw = localStorage.getItem(`microos_win_${appId}`);
+        const raw = localStorage.getItem(`pyos_win_${appId}`);
         return raw ? JSON.parse(raw) : null;
       } catch {
         return null;
@@ -53,14 +53,14 @@
               height: state.el.offsetHeight,
               maximized: false,
             };
-        localStorage.setItem(`microos_win_${state.appId}`, JSON.stringify(geom));
+        localStorage.setItem(`pyos_win_${state.appId}`, JSON.stringify(geom));
       } catch {}
     }
 
     resetWindowPositions() {
       try {
         for (const k of Object.keys(localStorage)) {
-          if (k.startsWith("microos_win_")) localStorage.removeItem(k);
+          if (k.startsWith("pyos_win_")) localStorage.removeItem(k);
         }
       } catch {}
     }

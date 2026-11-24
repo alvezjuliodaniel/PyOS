@@ -1,4 +1,4 @@
-# 03 — Auditoría de Memoria y Rendimiento (MicroOS v0.1.0)
+# 03 — Auditoría de Memoria y Rendimiento (PyOS v0.1.0)
 
 > **Base empírica**: Mediciones reales tomadas en ESP32-C3 SuperMini (`178,688 B` heap), ESP32 DevKit v1 sin PSRAM (`115,392 B` heap) y ESP32-CAM con PSRAM64H (`~4,073 KB` libres). No se asumen presupuestos definitivos sin medición en hardware real.
 

@@ -1,5 +1,5 @@
 """
-MicroOS - Pruebas de Fase 10: MQTT sobre TLS y AOS IoT
+PyOS - Pruebas de Fase 10: MQTT sobre TLS y AOS IoT
 Valida:
   1. Rechazo obligatorio sin CA PEM (TLS estricto, sin CERT_NONE).
   2. Secretos (password, ca_pem) guardados en /config/secrets/mqtt.secret,
@@ -29,7 +29,7 @@ import rpc
 
 
 async def run_mqtt_tests():
-    print("\n=== MicroOS Fase 10: Pruebas MQTT sobre TLS ===")
+    print("\n=== PyOS Fase 10: Pruebas MQTT sobre TLS ===")
 
     # [1] Verificar soporte TLS estricto en el firmware MicroPython
     assert hasattr(ssl, "SSLContext"), "Falta ssl.SSLContext"

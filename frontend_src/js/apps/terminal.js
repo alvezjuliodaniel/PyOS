@@ -1,5 +1,5 @@
 /**
- * MicroOS App: Terminal Nativa estilo Linux / Windows (pantalla continua inline)
+ * PyOS App: Terminal Nativa estilo Linux / Windows (pantalla continua inline)
  * Prompt inline en la ultima linea, sin barras ni botones artificiales.
  * Soporta comandos Linux + alias Windows (dir, cls, type, del), Tab-autocomplete,
  * Ctrl+L (limpiar), Ctrl+C (cancelar / detener dmesg -f), Ctrl+D / exit() para Python REPL.
@@ -7,7 +7,7 @@
 (function (global) {
   "use strict";
 
-  global.MicroOSApps = global.MicroOSApps || [];
+  global.PyOSApps = global.PyOSApps || [];
 
   const BUILTIN_CMDS = [
     "help", "history", "ls", "dir", "cd", "pwd", "cat", "type", "head", "wc", "nano",
@@ -69,15 +69,15 @@
     return out;
   }
 
-  global.MicroOSApps.push({
+  global.PyOSApps.push({
     id: "terminal",
     title: "Terminal",
     icon: "💻",
     width: 680,
     height: 430,
     mount(container, ctx) {
-      const { client, wm } = global.MicroOS;
-      const HIST_KEY = "microos_term_history";
+      const { client, wm } = global.PyOS;
+      const HIST_KEY = "pyos_term_history";
       const MAX_HIST = 100;
       let history = [];
       try {
@@ -121,7 +121,7 @@
         </div>
         <div id="term-nano" class="mono" style="display:none;position:absolute;inset:0;background:#0c0c0c;color:#e5e7eb;flex-direction:column;font-size:12.5px;">
           <div id="nano-hdr" style="background:#e5e7eb;color:#0c0c0c;padding:2px 8px;display:flex;justify-content:space-between;font-weight:700;flex-shrink:0;">
-            <span>MicroOS nano 1.0</span>
+            <span>PyOS nano 1.0</span>
             <span id="nano-file"></span>
             <span id="nano-mod"></span>
           </div>
@@ -246,7 +246,7 @@
       container.querySelector("#nano-btn-find").onclick = findInNano;
 
       function getHost() {
-        return (global.MicroOS.boardInfo && global.MicroOS.boardInfo.hostname) || "microos";
+        return (global.PyOS.boardInfo && global.PyOS.boardInfo.hostname) || "pyos";
       }
 
       function updatePrompt() {
@@ -394,7 +394,7 @@
         }
         if (cmd === "hostname") {
           const i = await client.call("sys", "info");
-          print(i.hostname || "microos");
+          print(i.hostname || "pyos");
           return;
         }
         if (cmd === "python" || cmd === "python3" || cmd === "py") {
@@ -480,8 +480,8 @@
         if (cmd === "uname") {
           const i = await client.call("sys", "info");
           print(args.includes("-a")
-            ? `MicroOS ${i.os_version} ${i.hostname} ${i.name} ${i.arch} ${i.cores}c MicroPython-${i.mpy_version}`
-            : `MicroOS`);
+            ? `PyOS ${i.os_version} ${i.hostname} ${i.name} ${i.arch} ${i.cores}c MicroPython-${i.mpy_version}`
+            : `PyOS`);
           return;
         }
         if (cmd === "free") {
@@ -648,7 +648,7 @@
       });
 
       const unsubLog = client.on("log", (entry) => { if (followLogs) printLog(entry); });
-      print("MicroOS Terminal (Linux/Windows). Escribe 'help' o 'python'.", "#94a3b8");
+      print("PyOS Terminal (Linux/Windows). Escribe 'help' o 'python'.", "#94a3b8");
       updatePrompt();
       inEl.focus();
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-MicroOS Studio - Herramienta grafica (Tkinter) para Linux
+PyOS Studio - Herramienta grafica (Tkinter) para Linux
 Permite gestionar la placa ESP32-C3 / ESP32-S / ESP32-S3 por USB:
   - Detectar puerto serie y placa conectada
   - Compilar frontend (.gz) y bytecode (.mpy opcional)
@@ -38,10 +38,10 @@ BOARDS = [
 TX_PRESETS = ["8.5", "11.0", "15.0", "19.5", "20.0"]
 
 
-class MicroOSStudio(tk.Tk):
+class PyOSStudio(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("MicroOS Studio — Gestor USB para ESP32")
+        self.title("PyOS Studio — Gestor USB para ESP32")
         self.geometry("920x680")
         self.minsize(820, 600)
 
@@ -60,7 +60,7 @@ class MicroOSStudio(tk.Tk):
         self.var_sta_timeout = tk.StringVar(value="15")
         self.var_sta_reconn = tk.StringVar(value="30")
         self.var_sta_tx = tk.StringVar(value="8.5")
-        self.var_ap_ssid = tk.StringVar(value="MicroOS-Setup")
+        self.var_ap_ssid = tk.StringVar(value="PyOS-Setup")
         self.var_ap_pass = tk.StringVar(value="")
         self.var_ap_ip = tk.StringVar(value="192.168.4.1")
         self.var_ap_ch = tk.StringVar(value="6")
@@ -195,7 +195,7 @@ class MicroOSStudio(tk.Tk):
 
     def _build_deploy_tab(self):
         # Acciones principales
-        box1 = ttk.LabelFrame(self.tab_deploy, text="Compilación y Despliegue de MicroOS", style="Card.TLabelframe", padding=10)
+        box1 = ttk.LabelFrame(self.tab_deploy, text="Compilación y Despliegue de PyOS", style="Card.TLabelframe", padding=10)
         box1.pack(fill="x", pady=(0, 10))
 
         r1 = ttk.Frame(box1)
@@ -609,7 +609,7 @@ class MicroOSStudio(tk.Tk):
         self.var_sta_reconn.set(str(sta.get("reconnect_interval_s", 30)))
         self.var_sta_tx.set(str(sta.get("txpower", 8.5)))
 
-        self.var_ap_ssid.set(ap.get("ssid", "MicroOS-Setup"))
+        self.var_ap_ssid.set(ap.get("ssid", "PyOS-Setup"))
         self.var_ap_pass.set(ap.get("password", ""))
         self.var_ap_ip.set(ap.get("ip", "192.168.4.1"))
         self.var_ap_ch.set(str(ap.get("channel", 6)))
@@ -633,7 +633,7 @@ class MicroOSStudio(tk.Tk):
                 "txpower": float(self.var_sta_tx.get() or 8.5),
             },
             "ap": {
-                "ssid": self.var_ap_ssid.get().strip() or "MicroOS-Setup",
+                "ssid": self.var_ap_ssid.get().strip() or "PyOS-Setup",
                 "password": self.var_ap_pass.get(),
                 "ip": self.var_ap_ip.get().strip() or "192.168.4.1",
                 "channel": int(self.var_ap_ch.get() or 6),
@@ -748,7 +748,7 @@ class MicroOSStudio(tk.Tk):
 
 
 def main():
-    app = MicroOSStudio()
+    app = PyOSStudio()
     app.mainloop()
 
 

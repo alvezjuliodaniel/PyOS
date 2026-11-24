@@ -1,4 +1,4 @@
-# 05 — Auditoría del Gestor de Aplicaciones y Diseño del SDK (MicroOS v0.1.0)
+# 05 — Auditoría del Gestor de Aplicaciones y Diseño del SDK (PyOS v0.1.0)
 
 > **Alcance**: Inspección de `sys/appmgr.py`, `sys/server.py` (`/api/apps/*`), `frontend_src/js/apps/appstore.js`, `frontend_src/js/app.js` (`syncDynamicApps`) y `examples/termometro.mapp.json`.
 
@@ -68,13 +68,13 @@
 
 ---
 
-## 3. Propuesta de SDK JavaScript para MicroOS v0.2.0 (Preparado para AOS)
+## 3. Propuesta de SDK JavaScript para PyOS v0.2.0 (Preparado para AOS)
 
-Para estandarizar el desarrollo de apps sin introducir frameworks y preparar compatibilidad futura con **AOS**, se propone exponer un SDK ligero (~1.2 KB gzip) en `frontend_src/js/sdk.js` bajo `MicroOS.sdk` (y en el contexto `ctx.sdk` de cada app):
+Para estandarizar el desarrollo de apps sin introducir frameworks y preparar compatibilidad futura con **AOS**, se propone exponer un SDK ligero (~1.2 KB gzip) en `frontend_src/js/sdk.js` bajo `PyOS.sdk` (y en el contexto `ctx.sdk` de cada app):
 
 ```javascript
 // Ejemplo conceptual de uso en una app v0.2.0 (diseño propuesto, NO implementado aún)
-MicroOS.defineApp({
+PyOS.defineApp({
   id: "mi_sensor",
   title: "Monitor Sensor",
   icon: "🌡️",
@@ -101,4 +101,4 @@ MicroOS.defineApp({
 - `sdk.events`: `on(event, fn)` con registro automático de limpieza en el ciclo de vida de la ventana.
 
 ### Migración sin ruptura
-- Las apps actuales que llaman a `MicroOS.wm.registerApp(...)` y `MicroOS.client.call(...)` seguirán funcionando sin cambios en v0.2.0; `MicroOS.defineApp(...)` actuará como capa recomendada con gestión automática de permisos y *cleanup*.
+- Las apps actuales que llaman a `PyOS.wm.registerApp(...)` y `PyOS.client.call(...)` seguirán funcionando sin cambios en v0.2.0; `PyOS.defineApp(...)` actuará como capa recomendada con gestión automática de permisos y *cleanup*.

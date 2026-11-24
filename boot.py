@@ -1,5 +1,5 @@
 """
-MicroOS - boot.py
+PyOS - boot.py
 Configuracion inicial minima: rutas de importacion, GC temprano y deteccion de placa.
 """
 
@@ -28,7 +28,7 @@ try:
     _hal = hal.get_hal()
     _mem = _hal.get_memory_stats()
     print(
-        "[MicroOS] Boot OK | {} ({}) | PSRAM: {} | RAM libre: {} KB".format(
+        "[PyOS] Boot OK | {} ({}) | PSRAM: {} | RAM libre: {} KB".format(
             _hal.board_name,
             _hal.arch,
             "SI" if _hal.has_psram else "NO",
@@ -37,6 +37,6 @@ try:
     )
     del _mem
 except Exception as _e:
-    print("[MicroOS] Error inicializando HAL en boot:", _e)
+    print("[PyOS] Error inicializando HAL en boot:", _e)
 
 gc.collect()

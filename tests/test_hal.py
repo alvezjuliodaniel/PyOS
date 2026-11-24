@@ -1,5 +1,5 @@
 """
-MicroOS - Script de prueba de Fase 0 (HAL)
+PyOS - Script de prueba de Fase 0 (HAL)
 Ejecutar en la placa con: mpremote run tests/test_hal.py
 """
 
@@ -13,7 +13,7 @@ import hal
 
 
 def run_tests():
-    print("=== MicroOS Fase 0: Pruebas de HAL ===")
+    print("=== PyOS Fase 0: Pruebas de HAL ===")
     h = hal.get_hal()
     info = h.get_board_info()
 

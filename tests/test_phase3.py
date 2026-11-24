@@ -1,5 +1,5 @@
 """
-MicroOS - Script de prueba de Fase 3 (HTTP Streaming .gz + WebSocket JSON-RPC)
+PyOS - Script de prueba de Fase 3 (HTTP Streaming .gz + WebSocket JSON-RPC)
 Prueba loopback completa en la propia placa sin requerir Wi-Fi externo.
 Ejecutar en la placa con: mpremote run tests/test_phase3.py
 """
@@ -55,9 +55,9 @@ async def _ws_recv_server_frame(reader):
 
 
 async def test_server_loopback():
-    print("\n=== MicroOS Fase 3: Pruebas HTTP Streaming + WebSocket JSON-RPC ===")
+    print("\n=== PyOS Fase 3: Pruebas HTTP Streaming + WebSocket JSON-RPC ===")
 
-    # Preparar archivo .gz de prueba en /www (gzip valido de "Hello MicroOS")
+    # Preparar archivo .gz de prueba en /www (gzip valido de "Hello PyOS")
     gz_sample = binascii.unhexlify(
         "1f8b08000000000002fff348cdc9c957f0cd4c2ef20f0600c534785b0d000000"
     )
@@ -89,7 +89,7 @@ async def test_server_loopback():
         print("  [1] OK HTTP static .gz streaming ({} B)".format(len(body)))
 
         # [2] HTTP Upload + Download streaming
-        upload_payload = b"MicroOS-Stream-Test-" * 40  # 800 B (> 1 chunk en C3)
+        upload_payload = b"PyOS-Stream-Test-" * 40  # 800 B (> 1 chunk en C3)
         r, w = await asyncio.open_connection("127.0.0.1", 8080)
         req = (
             "POST /api/fs/upload?path=/_up_test.bin HTTP/1.1\r\n"

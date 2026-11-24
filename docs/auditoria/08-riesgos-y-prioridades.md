@@ -1,4 +1,4 @@
-# 08 — Matriz Consolidada de Riesgos y Prioridades (MicroOS v0.1.0)
+# 08 — Matriz Consolidada de Riesgos y Prioridades (PyOS v0.1.0)
 
 ---
 
@@ -26,7 +26,7 @@
 | 7 | `ARCH-02` | **Alta** | `sys/server.py`, `sys/fs.py` | Sin timeouts en lecturas HTTP/WS (riesgo Slowloris con `max_sockets=3`) | Baja | A |
 | 8 | `SEC-09` | **Media** | `sys/server.py` | `reader.readline()` sin tope de longitud de cabecera (DoS RAM) | Baja | A |
 | 9 | `SEC-06` | **Alta** | `sys/server.py` | `POST /api/fs/upload` sin límite de tamaño ni reserva de Flash | Baja | B |
-| 10 | `SEC-05` | **Alta** | `sys/net.py`, `config/wifi.json` | AP de respaldo `MicroOS-Setup` abierto (`AUTH_OPEN`) | Baja | B |
+| 10 | `SEC-05` | **Alta** | `sys/net.py`, `config/wifi.json` | AP de respaldo `PyOS-Setup` abierto (`AUTH_OPEN`) | Baja | B |
 | 11 | `SEC-07` | **Alta** | `sys/server.py` | WebSocket sin fragmentación (`FIN=0`) ni rechazo de frames sin máscara | Baja-Media | B |
 | 12 | `APP-01` | **Alta** | `sys/appmgr.py` | Instalación/actualización no atómica sin staging ni rollback | Media | B |
 | 13 | `ARCH-01` | **Alta** | `sys/net.py`, `sys/rpc.py`, `sys/fs.py` | Operaciones síncronas bloqueantes en `dispatch()` (`sta.scan`, `copy_file`) | Media | B |

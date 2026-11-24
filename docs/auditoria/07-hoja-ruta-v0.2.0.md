@@ -1,4 +1,4 @@
-# 07 — Hoja de Ruta hacia MicroOS v0.2.0 y Plan de Implementación Incremental
+# 07 — Hoja de Ruta hacia PyOS v0.2.0 y Plan de Implementación Incremental
 
 > **Enfoque**: Evolución incremental sin reescribir la arquitectura existente, preservando compatibilidad con ESP32-C3 (~100 KB libres), ESP32 DevKit v1 (112 KB), ESP32-CAM (+PSRAM 4 MB) y ESP32-S3.
 
@@ -20,11 +20,11 @@
    - Límite de longitud de línea en cabeceras HTTP (`431`) y límite de tamaño de subida (`413` + reserva de 64 KB Flash).
    - Validación de `FIN`, fragmentación y máscara obligatoria RFC 6455 (`SEC-07`).
    - Aislamiento de `/config/secrets/*` y protección de escritura sobre `/boot.py`, `/main.py` y `/sys/*` (`SEC-02`).
-   - Contraseña WPA2 generada por dispositivo para el AP de respaldo `MicroOS-Setup` (`SEC-05`).
+   - Contraseña WPA2 generada por dispositivo para el AP de respaldo `PyOS-Setup` (`SEC-05`).
 4. **Seguridad del Gestor de Paquetes (`sys/appmgr.py`) y Frontend (`FE-01`)**:
    - Corregir *path traversal* en `manifest.ui`/`manifest.backend` confinando a `base=base_dir` (`APP-04`).
    - Instalación atómica en staging con validación de sintaxis y *rollback* (`APP-01`).
-   - Escapado HTML (`MicroOS.escHtml`) en `wifi.js`, `files.js`, `appstore.js`, `monitor.js`, `wm.js` y `app.js` para erradicar XSS (`FE-01`).
+   - Escapado HTML (`PyOS.escHtml`) en `wifi.js`, `files.js`, `appstore.js`, `monitor.js`, `wm.js` y `app.js` para erradicar XSS (`FE-01`).
 
 ### Prioridad Alta (Estabilidad, Memoria y SDK v0.2.0)
 1. **Optimización de memoria y `uasyncio`**:
@@ -32,12 +32,12 @@
    - Soporte `async` en `RPCRouter.dispatch()` y `Kernel.unregister_task()` (`ARCH-01`, `ARCH-03`).
    - Hook `on_unload(ctx)` en `AppManager` (`APP-03`).
 2. **SDK JavaScript (`frontend_src/js/sdk.js`)**:
-   - `MicroOS.defineApp(...)` con declaración de permisos, gestión automática de limpieza (`ctx.onCleanup`), diálogos no bloqueantes (`FE-06`) y eliminación de `Function()` en `calc.js` (`FE-02`).
+   - `PyOS.defineApp(...)` con declaración de permisos, gestión automática de limpieza (`ctx.onCleanup`), diálogos no bloqueantes (`FE-06`) y eliminación de `Function()` en `calc.js` (`FE-02`).
 3. **Batería de pruebas de regresión y burn-in**:
    - `tests/test_security.py`, `tests/test_appmgr.py` y ejecución de `test_stress_c3.py` en ESP32 DevKit v1 y ESP32-CAM.
 
 ### Prioridad Media (Capacidades IoT y Fase 10 — MQTT sobre TLS)
-1. **Fase 10 — Cliente MQTT sobre TLS (`sys/mqtt.py`) + App `MicroOS MQTT Center`**:
+1. **Fase 10 — Cliente MQTT sobre TLS (`sys/mqtt.py`) + App `PyOS MQTT Center`**:
    - Cliente MQTT 3.1.1 asíncrono sobre `uasyncio` + `ssl.SSLContext` con `CERT_REQUIRED`, CA confiable, verificación de hostname/SNI y sincronización horaria NTP (`ntptime`) antes de validar certificados.
    - QoS 0 y QoS 1 con `packet_id`, confirmación `PUBACK` y reintentos; reconexión con *backoff* exponencial.
    - Integración con tópicos AOS IoT (`aos/devices/<device_id>/telemetry|status|events|commands|responses`) sin ejecución de Python por MQTT y con *watchdog* local para actuadores.
@@ -60,8 +60,8 @@
 | Cambio propuesto | Impacto en compatibilidad | Estrategia de migración segura |
 | :--- | :--- | :--- |
 | Autenticación obligatoria (`SEC-01`) | Los clientes sin cookie/token recibirán `401`. | El escritorio muestra modal de Login automáticamente; primer arranque permite definir contraseña. |
-| Bloqueo de lectura de `/config/wifi.json` vía `fs.read` (`SEC-02`) | Ya no se podrá editar `wifi.json` como texto desde el Explorador. | La app **Ajustes Wi-Fi (`📶`)** y **MicroOS Studio** gestionan la configuración sin exponer contraseñas. |
-| Contraseña WPA2 en AP `MicroOS-Setup` (`SEC-05`) | El AP dejará de ser abierto. | Mostrar contraseña generada en consola serie y pantalla OLED SSD1306 al arrancar. |
+| Bloqueo de lectura de `/config/wifi.json` vía `fs.read` (`SEC-02`) | Ya no se podrá editar `wifi.json` como texto desde el Explorador. | La app **Ajustes Wi-Fi (`📶`)** y **PyOS Studio** gestionan la configuración sin exponer contraseñas. |
+| Contraseña WPA2 en AP `PyOS-Setup` (`SEC-05`) | El AP dejará de ser abierto. | Mostrar contraseña generada en consola serie y pantalla OLED SSD1306 al arrancar. |
 | Campos nuevos en `.mapp.json` v2 (`APP-02`) | Ninguna ruptura para apps v1. | Paquetes sin `schema_version` se cargan como v1 con aviso de compatibilidad. |
 
 ---
@@ -77,7 +77,7 @@
 
 ---
 
-## 4. Criterios de Aceptación para MicroOS v0.2.0
+## 4. Criterios de Aceptación para PyOS v0.2.0
 
 1. Cero vulnerabilidades críticas abiertas (`SEC-01` a `SEC-04`, `APP-04`, `FE-01` resueltas y verificadas con pruebas).
 2. Ninguna credencial (Wi-Fi, Auth, MQTT) legible desde el navegador, logs o respuestas HTTP/RPC.

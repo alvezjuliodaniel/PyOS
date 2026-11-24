@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-MicroOS - Herramienta de Compilacion y Despliegue (Host)
+PyOS - Herramienta de Compilacion y Despliegue (Host)
 1. Minifica de forma segura y comprime con gzip (nivel 9) /frontend_src -> /www/*.gz
 2. Opcionalmente compila /sys/*.py a bytecode .mpy con mpy-cross
    (rv32imc para ESP32-C3, xtensawin para ESP32-S y ESP32-S3).
@@ -143,7 +143,7 @@ def deploy_raw_repl(port: str, use_mpy: bool, baud: int = 115200) -> None:
     import time
     import serial
 
-    print(f"=== [3/3] Desplegando MicroOS a {port} (modo --no-dtr / ESP32-CAM) ===")
+    print(f"=== [3/3] Desplegando PyOS a {port} (modo --no-dtr / ESP32-CAM) ===")
     s = serial.Serial()
     s.port = port
     s.baudrate = baud
@@ -237,7 +237,7 @@ def deploy_raw_repl(port: str, use_mpy: bool, baud: int = 115200) -> None:
             raw_exec("_f.close()\n")
             print(f"  OK {remote_p:32s} ({len(data):5d} B)")
 
-        # Salir de Raw REPL (Ctrl-B) y soft-reset (Ctrl-D) para arrancar MicroOS
+        # Salir de Raw REPL (Ctrl-B) y soft-reset (Ctrl-D) para arrancar PyOS
         s.write(b"\x02")
         time.sleep(0.1)
         s.write(b"\x04")
@@ -256,7 +256,7 @@ def deploy_board(port: str, use_mpy: bool) -> None:
     if not mpremote:
         raise RuntimeError("'mpremote' no encontrado en PATH.")
 
-    print(f"=== [3/3] Desplegando MicroOS a {port} ({'bytecode .mpy' if use_mpy else 'fuente .py'}) ===")
+    print(f"=== [3/3] Desplegando PyOS a {port} ({'bytecode .mpy' if use_mpy else 'fuente .py'}) ===")
 
     def run_mp(*args):
         cmd = [mpremote, "connect", port, *args]
@@ -307,7 +307,7 @@ def deploy_board(port: str, use_mpy: bool) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="MicroOS Build & Deploy Tool")
+    parser = argparse.ArgumentParser(description="PyOS Build & Deploy Tool")
     parser.add_argument(
         "--board",
         choices=list(BOARD_ARCH.keys()),

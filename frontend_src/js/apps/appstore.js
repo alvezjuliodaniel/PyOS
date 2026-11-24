@@ -1,11 +1,11 @@
 /**
- * MicroOS App: Gestor de Aplicaciones Dinamicas (Instalar / Desinstalar en caliente)
+ * PyOS App: Gestor de Aplicaciones Dinamicas (Instalar / Desinstalar en caliente)
  * Sin modificar el firmware MicroPython ni reiniciar la placa.
  */
 (function (global) {
   "use strict";
 
-  global.MicroOSApps = global.MicroOSApps || [];
+  global.PyOSApps = global.PyOSApps || [];
 
   // Plantillas listas para instalar con 1 clic como demostracion
   const TEMPLATES = {
@@ -19,7 +19,7 @@
       },
       backend: "",
       ui: `(function(){
-  MicroOS.wm.registerApp({
+  PyOS.wm.registerApp({
     id:"cronometro", title:"Cronometro", icon:"⏱️", width:300, height:210,
     mount(c){
       let ms=0, t=null;
@@ -53,10 +53,10 @@
     raise ValueError("cmd desconocido")
 `,
       ui: `(function(){
-  MicroOS.wm.registerApp({
+  PyOS.wm.registerApp({
     id:"blink", title:"Blink LED", icon:"💡", width:320, height:220,
     mount(c){
-      const {client, toast} = MicroOS;
+      const {client, toast} = PyOS;
       c.innerHTML='<div class="card" style="display:flex;flex-direction:column;gap:10px;"><label>GPIO seguro: <select id="bl-p" class="input mono"></select></label><button class="btn primary" id="bl-t" style="padding:10px;font-size:14px;">⚡ Alternar LED</button><div id="bl-s" class="mono muted">Listo</div></div>';
       const sel=c.querySelector("#bl-p"), st=c.querySelector("#bl-s");
       client.call("blink","pins").then(pins=>{sel.innerHTML=pins.map(p=>"<option value="+p+">GPIO "+p+"</option>").join("");}).catch(()=>{});
@@ -70,14 +70,14 @@
     },
   };
 
-  global.MicroOSApps.push({
+  global.PyOSApps.push({
     id: "appstore",
     title: "Gestor de Apps",
     icon: "📦",
     width: 680,
     height: 480,
     mount(container) {
-      const { client, wm, toast, escHtml } = global.MicroOS;
+      const { client, wm, toast, escHtml } = global.PyOS;
 
       container.innerHTML = `
         <div style="display:flex;flex-direction:column;gap:10px;height:100%;">
@@ -108,7 +108,7 @@
               <input id="as-desc" class="input" placeholder="Descripcion corta" style="flex:1;min-width:140px;" />
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;flex:1;min-height:0;">
-              <textarea id="as-ui" class="input mono" style="resize:none;font-size:11px;" spellcheck="false" placeholder="ui.js (opcional):&#10;MicroOS.wm.registerApp({ id:'miapp', title:'Mi App', icon:'🧩', mount(c){ c.innerHTML='Hola!'; } });"></textarea>
+              <textarea id="as-ui" class="input mono" style="resize:none;font-size:11px;" spellcheck="false" placeholder="ui.js (opcional):&#10;PyOS.wm.registerApp({ id:'miapp', title:'Mi App', icon:'🧩', mount(c){ c.innerHTML='Hola!'; } });"></textarea>
               <textarea id="as-be" class="input mono" style="resize:none;font-size:11px;" spellcheck="false" placeholder="backend.py (opcional):&#10;def rpc(cmd, args, ctx):&#10;    return {'ok': True}"></textarea>
             </div>
           </div>
@@ -156,7 +156,7 @@
               if (!confirm(`¿Desinstalar "${a.name}" (${a.id})?`)) return;
               try {
                 await client.call("apps", "uninstall", { id: a.id });
-                if (global.MicroOS.syncDynamicApps) await global.MicroOS.syncDynamicApps();
+                if (global.PyOS.syncDynamicApps) await global.PyOS.syncDynamicApps();
                 toast(`App '${a.name}' desinstalada`, "ok");
                 refresh();
               } catch (e) { toast(e.message, "err"); }
@@ -171,8 +171,8 @@
       async function installPkg(pkg) {
         try {
           await client.call("apps", "install", pkg, 12000);
-          if (global.MicroOS.syncDynamicApps) {
-            await global.MicroOS.syncDynamicApps(pkg.manifest.id);
+          if (global.PyOS.syncDynamicApps) {
+            await global.PyOS.syncDynamicApps(pkg.manifest.id);
           }
           toast(`App '${pkg.manifest.name || pkg.manifest.id}' instalada en caliente`, "ok");
           refresh();

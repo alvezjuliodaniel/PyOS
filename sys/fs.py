@@ -1,5 +1,5 @@
 """
-MicroOS - Sistema de Archivos Seguro (VFS) sobre LittleFS
+PyOS - Sistema de Archivos Seguro (VFS) sobre LittleFS
 Provee navegacion segura contra path traversal y lectura/escritura por bloques
 (streaming) con minimo consumo de RAM para ESP32-C3 / ESP32-S / ESP32-S3.
 """

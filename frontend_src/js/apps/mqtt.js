@@ -1,20 +1,20 @@
 /**
- * MicroOS App: MicroOS MQTT Center (MQTT 3.1.1 sobre TLS Verificado + AOS IoT)
+ * PyOS App: PyOS MQTT Center (MQTT 3.1.1 sobre TLS Verificado + AOS IoT)
  * Paneles: Conexion/TLS, Explorador de Topicos, Publicador y Monitor de Conexion.
  */
 (function (global) {
   "use strict";
 
-  global.MicroOSApps = global.MicroOSApps || [];
+  global.PyOSApps = global.PyOSApps || [];
 
-  global.MicroOSApps.push({
+  global.PyOSApps.push({
     id: "mqtt",
-    title: "MicroOS MQTT Center",
+    title: "PyOS MQTT Center",
     icon: "📡",
     width: 720,
     height: 510,
     mount(container) {
-      const { client, toast, escHtml } = global.MicroOS;
+      const { client, toast, escHtml } = global.PyOS;
       let paused = false;
       let messages = [];
       let filterText = "";
@@ -254,7 +254,7 @@
           `RAM libre tras TLS : ${s.ram_after_tls ? Math.round(s.ram_after_tls / 1024) + " KB" : "--"} ` +
           `(delta TLS: ${s.tls_ram_delta ? Math.round(s.tls_ram_delta / 1024) + " KB" : "--"})`;
 
-        const cid = escHtml(st.client_id || "microos");
+        const cid = escHtml(st.client_id || "pyos");
         const base = escHtml(st.aos_base_topic || "aos/devices");
         container.querySelector("#mq-st-aos").innerHTML =
           `<strong>Esquema AOS IoT (${st.aos_enabled ? "Activo" : "Inactivo"}):</strong><br>` +

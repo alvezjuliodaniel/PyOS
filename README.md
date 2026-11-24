@@ -1,4 +1,4 @@
-# MicroOS — Minisistema Operativo Web en MicroPython
+# PyOS — Minisistema Operativo Web en MicroPython
 
 Minisistema operativo web ultraligero para **ESP32-C3**, **ESP32-S (Clásico)** y **ESP32-S3**. El microcontrolador actúa como kernel cooperativo (`uasyncio`), gestor de hardware (HAL) y servidor HTTP/WebSocket por streaming; el navegador renderiza el escritorio completo en HTML5, CSS3 y Vanilla JS puro.
 
@@ -10,13 +10,13 @@ PyOS/
 ├── main.py             # Arranque del Kernel uasyncio (net_manager + http_server)
 ├── config/
 │   ├── boards.json     # Perfiles de pines seguros y límites (C3 / S / S3)
-│   ├── system.json     # Hostname (microos), versión e intervalo de telemetría
+│   ├── system.json     # Hostname (pyos), versión e intervalo de telemetría
 │   └── wifi.json       # Credenciales STA y configuración del AP de respaldo
 ├── sys/
 │   ├── hal.py          # Capa de Abstracción de Hardware (GPIO, ADC1, PWM, telemetría)
 │   ├── fs.py           # Utilidades seguras LittleFS (anti path-traversal, streaming)
 │   ├── kernel.py       # Task Manager con supervisor, GC Watchdog y bus de eventos
-│   ├── net.py          # Wi-Fi dual STA + AP (MicroOS-Setup) con reconexión asíncrona
+│   ├── net.py          # Wi-Fi dual STA + AP (PyOS-Setup) con reconexión asíncrona
 │   ├── rpc.py          # Enrutador JSON-RPC (sys, gpio, fs, net, term)
 │   └── server.py       # Servidor HTTP (.gz en chunks) + WebSocket RFC 6455
 ├── frontend_src/       # Código fuente del escritorio SPA y 4 apps nativas
@@ -53,8 +53,8 @@ python3 tools/build.py --board esp32c3 --mpy --deploy --port /dev/ttyACM0
 
 ### 4. Acceso al Escritorio Web
 1. Reinicia la placa (`mpremote connect /dev/ttyACM0 soft-reset`).
-2. **Sin Wi-Fi configurado**: conéctate a la red **`MicroOS-Setup`** y abre **`http://192.168.4.1`**.
-3. **Con Wi-Fi STA configurado** en `config/wifi.json`: abre **`http://microos.local`** o la IP asignada por DHCP.
+2. **Sin Wi-Fi configurado**: conéctate a la red **`PyOS-Setup`** y abre **`http://192.168.4.1`**.
+3. **Con Wi-Fi STA configurado** en `config/wifi.json`: abre **`http://pyos.local`** o la IP asignada por DHCP.
 
 ## Pruebas en Placa
 
